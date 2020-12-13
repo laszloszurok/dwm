@@ -113,11 +113,10 @@ static const Layout layouts[] = {
         { Mod1Mask,                     XK_4,      setlayout,      {.v = &layouts[3]} },
         { Mod1Mask,                     XK_5,      setlayout,      {.v = &layouts[4]} },
         { Mod1Mask,                     XK_space,  setlayout,      {0} }, /* toggle betwwen this and the last used layout */
+        { Mod1Mask|ShiftMask,           XK_space,  togglefloating, {0} }, /* toggle floating for the active window */
 
         { Mod1Mask,		                XK_n,      cyclelayout,    {.i = +1 } },
         { Mod1Mask,                     XK_p,      cyclelayout,    {.i = -1 } },
-
-        { Mod1Mask,                     XK_f,      togglefloating, {0} },
 
         { MODKEY,                       XK_h,      setmfact,       {.f = -0.05} },
         { MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
