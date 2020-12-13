@@ -32,7 +32,7 @@ static const Rule rules[] = {
     { "qutebrowser",        NULL, NULL,   1 << 1, 0, 0, -1, -1 },
     { "Brave-browser",      NULL, NULL,   1 << 1, 0, 0, -1, -1 },
     { "Spotify",            NULL, NULL,   1 << 2, 0, 0,  0, -1 },
-	{ "st-256color",        NULL,"ncspot",1 << 4, 0, 1,  0, -1 },
+	{ "st-256color",        NULL,"ncspot",1 << 2, 0, 1,  0, -1 },
     { "Skype",              NULL, NULL,   1 << 3, 0, 0,  0, -1 },
     { "zoom",               NULL, NULL,   1 << 3, 0, 0,  0, -1 },
     { "Ripcord",            NULL, NULL,   1 << 3, 0, 0,  0, -1 },
