@@ -64,15 +64,16 @@ static const Rule rules[] = {
 /* layout(s) */
 static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static const int resizehints = 0;    /* 1 means respect size hints in tiled resizals */
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
 	{ "│ ",      tile },    /* first entry is default */
 	{ "│ ",      monocle },
-	{ "│ ",      centeredmaster },
-	{ "│ ",      centeredfloatingmaster },
+	/* { "│ ",      centeredmaster }, */
+	/* { "│ ",      centeredfloatingmaster }, */
 	{ "│ ",      NULL },    /* no layout function means floating behavior */
+	{ "│ ",      gaplessgrid },    /* no layout function means floating behavior */
     { NULL,       NULL } /* indicates the end of the list, has to be the last */
 };
 
@@ -108,11 +109,12 @@ static const Layout layouts[] = {
         { MODKEY,                       XK_j,      focusstackvis,  {.i = +1 } },
         { MODKEY,                       XK_q,      killclient,     {0} },
 
-        { Mod1Mask,                     XK_1,      setlayout,      {.v = &layouts[0]} },
-        { Mod1Mask,                     XK_2,      setlayout,      {.v = &layouts[1]} },
-        { Mod1Mask,                     XK_3,      setlayout,      {.v = &layouts[2]} },
-        { Mod1Mask,                     XK_4,      setlayout,      {.v = &layouts[3]} },
-        { Mod1Mask,                     XK_5,      setlayout,      {.v = &layouts[4]} },
+        { MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} }, /* tiling */
+        { MODKEY,                       XK_m,      setlayout,      {.v = &layouts[1]} }, /* monocle */
+        /* { MODKEY,                       XK_c,      setlayout,      {.v = &layouts[2]} }, /1* centeredmaster *1/ */
+        /* { MODKEY|ShiftMask,             XK_c,      setlayout,      {.v = &layouts[3]} }, /1* centeredfloatingmaster *1/ */
+        { MODKEY,                       XK_f,      setlayout,      {.v = &layouts[2]} }, /* floating */
+        { MODKEY,                       XK_g,      setlayout,      {.v = &layouts[3]} }, /* grid */
         { Mod1Mask,                     XK_space,  setlayout,      {0} }, /* toggle betwwen this and the last used layout */
         { Mod1Mask|ShiftMask,           XK_space,  togglefloating, {0} }, /* toggle floating for the active window */
 

@@ -128,6 +128,7 @@ struct Monitor {
 	int bt;               /* number of tasks */
 	int mx, my, mw, mh;   /* screen size */
 	int wx, wy, ww, wh;   /* window area  */
+	int gappx;            /* gaps between windows */
 	unsigned int seltags;
 	unsigned int sellt;
 	unsigned int tagset[2];
@@ -186,6 +187,7 @@ static void focusmon(const Arg *arg);
 static void focusstackvis(const Arg *arg);
 static void focusstackhid(const Arg *arg);
 static void focusstack(int inc, int vis);
+static void gaplessgrid(Monitor *m);
 static int getdwmblockspid();
 static Atom getatomprop(Client *c, Atom prop);
 static int getrootptr(int *x, int *y);
@@ -221,6 +223,7 @@ static void sendmon(Client *c, Monitor *m);
 static void setclientstate(Client *c, long state);
 static void setfocus(Client *c);
 static void setfullscreen(Client *c, int fullscreen);
+static void setgaps(const Arg *arg);
 static void setlayout(const Arg *arg);
 static void setcfact(const Arg *arg);
 static void setmfact(const Arg *arg);
@@ -264,9 +267,6 @@ static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void zoom(const Arg *arg);
 static void shiftview(const Arg *arg);
-static void centeredmaster(Monitor *m);
-static void centeredfloatingmaster(Monitor *m);
-
 static pid_t getparentprocess(pid_t p);
 static int isdescprocess(pid_t p, pid_t c);
 static Client *swallowingclient(Window w);
@@ -331,6 +331,47 @@ static unsigned int scratchtag = 1 << LENGTH(tags) - 1;
 struct NumTags { char limitexceeded[LENGTH(tags) > 31 ? -1 : 1]; };
 
 /* function implementations */
+void
+gaplessgrid(Monitor *m) {
+	unsigned int n, cols, rows, cn, rn, i, cx, cy, cw, ch;
+	Client *c;
+
+	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++) ;
+	if(n == 0)
+		return;
+	if(n == 1){
+		c = nexttiled(m->clients);
+		resize(c, m->wx + gappx, m->wy + gappx, m->ww - 2 * c->bw - m->gappx*2, m->wh - 2 * c->bw - m->gappx*2, 0);
+		return;
+	}
+
+	/* grid dimensions */
+	for(cols = 0; cols <= n/2; cols++)
+		if(cols*cols >= n)
+			break;
+	if(n == 5) /* set layout against the general calculation: not 1:2:2, but 2:3 */
+		cols = 2;
+	rows = n/cols;
+
+	/* window geometries */
+	cw = cols ? m->ww / cols : m->ww;
+	cn = 0; /* current column number */
+	rn = 0; /* current row number */
+	for(i = 0, c = nexttiled(m->clients); c; i++, c = nexttiled(c->next)) {
+		if(i/rows + 1 > cols - n%cols)
+			rows = n/cols + 1;
+		ch = rows ? (m->wh-m->gappx) / rows : m->wh;
+		cx = m->wx + m->gappx + cn*cw;
+		cy = m->wy + m->gappx + rn*ch;
+		resize(c, cx - cn*m->gappx/cols, cy, cw - 2 * (c->bw) - m->gappx - m->gappx/cols, ch - 2 * c->bw - m->gappx, False);
+		rn++;
+		if(rn >= rows) {
+			rn = 0;
+			cn++;
+		}
+	}
+}
+
 void
 shiftview(const Arg *arg)
 {
@@ -826,6 +867,7 @@ createmon(void)
 	m->nmaster = nmaster;
 	m->showbar = showbar;
 	m->topbar = topbar;
+	m->gappx = gappx;
 	m->lt[0] = &layouts[0];
 	m->lt[1] = &layouts[1 % LENGTH(layouts)];
 	strncpy(m->ltsymbol, layouts[0].symbol, sizeof m->ltsymbol);
@@ -1613,8 +1655,6 @@ void
 resizeclient(Client *c, int x, int y, int w, int h)
 {
 	XWindowChanges wc;
-    unsigned int n;
-    Client *nbc;
 
 	c->oldx = c->x; c->x = wc.x = x;
 	c->oldy = c->y; c->y = wc.y = y;
@@ -1622,14 +1662,13 @@ resizeclient(Client *c, int x, int y, int w, int h)
 	c->oldh = c->h; c->h = wc.height = h;
     wc.border_width = c->bw;
 
-    for (n = 0, nbc = nexttiled(selmon->clients); nbc; nbc = nexttiled(nbc->next), n++);
-
-    if (c->isfloating || selmon->lt[selmon->sellt]->arrange == NULL) {
-    } else {
-           if (selmon->lt[selmon->sellt]->arrange == monocle) {
-               wc.border_width = 0;
-           }
-    }
+	if (((nexttiled(c->mon->clients) == c && !nexttiled(c->next))
+	    || &monocle == c->mon->lt[c->mon->sellt]->arrange))
+	{
+		c->w = wc.width += c->bw * 2;
+		c->h = wc.height += c->bw * 2;
+		wc.border_width = 0;
+	}
 
     XConfigureWindow(dpy, c->win, CWX|CWY|CWWidth|CWHeight|CWBorderWidth, &wc);
 	configure(c);
@@ -1849,6 +1888,16 @@ setfullscreen(Client *c, int fullscreen)
 		resizeclient(c, c->x, c->y, c->w, c->h);
 		arrange(c->mon);
 	}
+}
+
+void
+setgaps(const Arg *arg)
+{
+	if ((arg->i == 0) || (selmon->gappx + arg->i < 0))
+		selmon->gappx = 0;
+	else
+		selmon->gappx += arg->i;
+	arrange(selmon);
 }
 
 void
@@ -2100,7 +2149,7 @@ void
 tile(Monitor *m)
 {
 	unsigned int i, n, h, mw, my, ty, ns;
-	float mfacts = 0, sfacts = 0;
+    float mfacts = 0, sfacts = 0;
 	Client *c;
 
 	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++) {
@@ -2112,23 +2161,32 @@ tile(Monitor *m)
 	if (n == 0)
 		return;
 
+	if(n == 1){
+		c = nexttiled(m->clients);
+		resize(c, m->wx + gappx, m->wy + gappx, m->ww - 2 * c->bw - m->gappx*2, m->wh - 2 * c->bw - m->gappx*2, 0);
+		return;
+	}
+
 	if (n > m->nmaster) {
 		mw = m->nmaster ? m->ww * m->mfact : 0;
 		ns = m->nmaster > 0 ? 2 : 1;
-    } else {
-		mw = m->ww;
+	}
+	else{
+		mw = m->ww - m->gappx;
 		ns = 1;
-    }
-	for(i = 0, my = ty = gappx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
-        if (i < m->nmaster) {
-			h = (m->wh - my) * (c->cfact / mfacts) - gappx;
-			resize(c, m->wx + gappx, m->wy + my, mw - (2*c->bw) - gappx*(5-ns)/2, h - (2*c->bw), False);
-			my += HEIGHT(c) + gappx;
+	}
+	for (i = 0, my = ty = m->gappx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
+		if (i < m->nmaster) {
+			h = (m->wh - my) * (c->cfact / mfacts) - m->gappx;
+			resize(c, m->wx + m->gappx, m->wy + my, mw - 2*c->bw - m->gappx*(5-ns)/2, h - 2*c->bw, 0);
+			if(my + HEIGHT(c) + m->gappx < m->wh)
+				my += HEIGHT(c) + m->gappx;
 			mfacts -= c->cfact;
 		} else {
-			h = (m->wh - ty) * (c->cfact / sfacts) - gappx;
-			resize(c, m->wx + mw + gappx/ns, m->wy + ty, m->ww - mw - (2*c->bw) - gappx*(5-ns)/2, h - (2*c->bw), False);
-			ty += HEIGHT(c) + gappx;
+			h = (m->wh - ty) * (c->cfact / sfacts) - m->gappx;
+			resize(c, m->wx + mw + m->gappx/ns, m->wy + ty, m->ww - mw - (2*c->bw) - m->gappx*(5-ns)/2, h - 2*c->bw, 0);
+			if(ty + HEIGHT(c) + m->gappx < m->wh)
+				ty += HEIGHT(c) + m->gappx;
 			sfacts -= c->cfact;
 		}
 }
@@ -2792,113 +2850,4 @@ main(int argc, char *argv[])
 	cleanup();
 	XCloseDisplay(dpy);
 	return EXIT_SUCCESS;
-}
-
-void
-centeredmaster(Monitor *m)
-{
-	unsigned int i, n, h, mw, mx, my, oty, ety, tw, ns;
-	Client *c;
-
-	/* count number of clients in the selected monitor */
-	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
-	if (n == 0)
-		return;
-
-	/* initialize areas */
-	mw = m->ww;
-	mx = 0;
-	my = gappx;
-	tw = mw;
-
-	if (n > m->nmaster) {
-		ns = m->nmaster > 0 ? 2 : 1;
-		/* go mfact box in the center if more than nmaster clients */
-		mw = m->nmaster ? m->ww * m->mfact : 0;
-		tw = m->ww - mw;
-
-		if (n - m->nmaster > 1) {
-			/* only one client */
-			mx = (m->ww - mw) / 2;
-			tw = (m->ww - mw) / 2;
-		}
-    } else {
-        ns = 1;
-    }
-
-	oty = gappx;
-	ety = gappx;
-	for (i = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
-	if (i < m->nmaster) {
-		/* nmaster clients are stacked vertically, in the center
-		 * of the screen */
-		h = (m->wh - my) / (MIN(n, m->nmaster) - i) - gappx;
-		resize(c, m->wx + mx + gappx, m->wy + my, mw - (2*c->bw) - gappx*(5-ns)/2,
-		       h - (2*c->bw), 0);
-		my += HEIGHT(c) + gappx;
-	} else {
-		/* stack clients are stacked vertically */
-		if ((i - m->nmaster) % 2 ) {
-			h = (m->wh - ety) / ( (1 + n - i) / 2) - gappx;
-			resize(c, m->wx + gappx + 3, m->wy + ety, tw - (2*c->bw) - gappx*(5-ns)/2,
-			       h - (2*c->bw), 0);
-			ety += HEIGHT(c) + gappx;
-		} else {
-			h = (m->wh - oty) / ((1 + n - i) / 2) - gappx;
-			resize(c, m->wx + mx + mw + gappx/ns, m->wy + oty,
-			       tw - (2*c->bw) - gappx*(5-ns)/2, h - (2*c->bw), 0);
-			oty += HEIGHT(c) + gappx;
-		}
-	}
-}
-
-void
-centeredfloatingmaster(Monitor *m)
-{
-	unsigned int i, n, h, w, mh, mw, mx, mxo, my, myo, tx, ns;
-	Client *c;
-
-	/* count number of clients in the selected monitor */
-	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
-	if (n == 0)
-		return;
-
-	/* initialize nmaster area */
-	if (n > m->nmaster) {
-		ns = m->nmaster > 0 ? 2 : 1;
-		/* go mfact box in the center if more than nmaster clients */
-		if (m->ww > m->wh) {
-			mw = m->nmaster ? m->ww * m->mfact : 0;
-			mh = m->nmaster ? m->wh * 0.9 : 0;
-		} else {
-			mh = m->nmaster ? m->wh * m->mfact : 0;
-			mw = m->nmaster ? m->ww * 0.9 : 0;
-		}
-		mx = mxo = (m->ww - mw) / 2;
-		my = myo = (m->wh - mh) / 2;
-	} else {
-        ns = 1;
-		/* go fullscreen if all clients are in the master area */
-		mh = m->wh - 2 * gappx;
-		mw = m->ww - 2 * gappx;
-		mx = mxo = gappx;
-		my = myo = gappx;
-	}
-
-	for(i = tx = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
-	if (i < m->nmaster) {
-		/* nmaster clients are stacked horizontally, in the center
-		 * of the screen */
-		w = (mw + mxo - mx) / (MIN(n, m->nmaster) - i);
-		resize(c, m->wx + mx, m->wy + my, w - (2*c->bw),
-		       mh - (2*c->bw), 0);
-		mx += WIDTH(c) + gappx;
-	} else {
-		/* stack clients are stacked horizontally */
-		h = m->wh - 2 * gappx;
-		w = (m->ww - tx) / (n - i);
-		resize(c, m->wx + tx + gappx - 3, m->wy + gappx, w - (2*c->bw) - gappx*(5-ns)/2,
-		       h - (2*c->bw), 0);
-		tx += WIDTH(c) + gappx;
-	}
 }
