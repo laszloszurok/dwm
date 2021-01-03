@@ -13,19 +13,24 @@ shiftview(const Arg *arg)
 	int count = 0;
 	int nextseltags, curseltags = selmon->tagset[selmon->seltags];
 
+    // one tag that will alwasy be skipped
+    int tagtojumpover = 1 << 9;
+
 	do {
-		if(i > 0) // left circular shift
+        if(i > 0)  // left circular shift
 			nextseltags = (curseltags << i) | (curseltags >> (LENGTH(tags) - i));
 
-		else // right circular shift
+        else  // right circular shift
 			nextseltags = curseltags >> (- i) | (curseltags << (LENGTH(tags) + i));
 
-                // Check if tag is visible
-		for (c = selmon->clients; c && !visible; c = c->next)
-			if (nextseltags & c->tags) {
-				visible = 1;
-				break;
-			}
+        if (nextseltags != tagtojumpover) {
+            // Check if tag is visible
+            for (c = selmon->clients; c && !visible; c = c->next)
+                if (nextseltags & c->tags) {
+                    visible = 1;
+                    break;
+                }
+        }
 		i += arg->i;
 	} while (!visible && ++count < 10);
 

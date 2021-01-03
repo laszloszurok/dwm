@@ -12,7 +12,7 @@ diff -up a/config.def.h b/config.def.h
  	/* modifier                     key        function        argument */
  	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
  	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
-+	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
++	{ MODKEY,                       XK_s,      togglescratch,  {.v = scratchpadcmd } },
  	{ MODKEY,                       XK_b,      togglebar,      {0} },
  	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
  	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -31,7 +31,7 @@ diff -up a/dwm.c b/dwm.c
  /* configuration, allows nested code to access above variables */
  #include "config.h"
  
-+static unsigned int scratchtag = 1 << LENGTH(tags);
++static unsigned int scratchtag = 1 << (LENGTH(tags) - 1);
 +
  /* compile-time check if all tags fit into an unsigned int bit array. */
  struct NumTags { char limitexceeded[LENGTH(tags) > 31 ? -1 : 1]; };

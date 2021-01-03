@@ -19,15 +19,14 @@ index d27cb67..066ed71 100644
 @@ -1386,6 +1387,12 @@ run(void)
  }
  
- void
++void
 +runAutostart(void) {
-+	system("cd ~/.config; ./autostart_blocking.sh");
 +	system("cd ~/.config; ./autostart.sh &");
 +}
 +
-+void
- scan(void)
- {
+void
+scan(void)
+{
  	unsigned int i, num;
 @@ -2145,6 +2152,7 @@ main(int argc, char *argv[])
  	checkotherwm();
