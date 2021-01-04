@@ -433,9 +433,13 @@ hidescratch() {
         }
         scratchpad_hidden = 1;
     }
-    /* selmon->tagset[selmon->seltags] = newtagset; */
-    /* focus(NULL); */
-    /* arrange(selmon); */
+}
+
+void
+killscratch() {
+    /* shell command to find and kill the window with the name 'scratchpad' */
+    system("xkill -id $(xwininfo -name scratchpad | awk -F \':*\"*\' \'{print $3}\')");
+    scratchpad_hidden = 1;
 }
 
 void
@@ -2872,7 +2876,10 @@ main(int argc, char *argv[])
 	scan();
     runAutostart();
 	run();
-	if(restart) execvp(argv[0], argv);
+	if(restart) {
+	    killscratch();
+        execvp(argv[0], argv);
+	}
 	cleanup();
 	XCloseDisplay(dpy);
 	return EXIT_SUCCESS;
