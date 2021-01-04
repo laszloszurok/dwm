@@ -103,8 +103,8 @@ static Key keys[] = {
 
     { MODKEY,                       XK_p,      spawn,          {.v = passmenucmd } },
     { MODKEY,                       XK_b,      togglebar,      {0} },
-    { MODKEY,                       XK_k,      focusstack,  {.i = -1 } },
-    { MODKEY,                       XK_j,      focusstack,  {.i = +1 } },
+    { MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
+    { MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
     { MODKEY,                       XK_q,      killclient,     {0} },
 
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
@@ -141,7 +141,6 @@ static Key keys[] = {
     { MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
     { MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
 
-
 	{ MODKEY,                       XK_minus,  setgaps,        {.i = -5 } },
 	{ MODKEY,                       XK_equal,  setgaps,        {.i = +5 } },
 	{ MODKEY|ShiftMask,             XK_equal,  setgaps,        {.i = 0  } },
@@ -169,7 +168,7 @@ static Key keys[] = {
     { MODKEY,            XK_n,     spawn, SHCMD("st -e newsboat; pkill -RTMIN+21 dwmblocks") },
     { MODKEY,            XK_e,     spawn, SHCMD("st -e $EDITOR") },
     { MODKEY,            XK_c,     spawn, SHCMD("st -f 'mono:pixelsize=20:antialias=true:autohint=true' -e calcurse; pkill -RTMIN+14 dwmblocks") },
-    { MODKEY,            XK_space, spawn, SHCMD("pkill -RTMIN+12 dwmblocks") },
+    { MODKEY,            XK_space, spawn, SHCMD("$HOME/source/scripts/status/kblayout") },
 
     TAGKEYS( XK_1, 0 )
     TAGKEYS( XK_2, 1 )
