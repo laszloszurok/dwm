@@ -90,7 +90,7 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_hist", NULL }; // make sure it's in $PATH
 static const char *dmenu_sudo_cmd[] = { "dmenu_hist", "sudo", NULL }; // running programs with sudo
-static const char *passmenucmd[] = { "passmenu", "-fn", "monospace:size=12", "-h", "26", "-i", "-p", "copy:", NULL };
+static const char *passmenucmd[] = { "passmenu_hist", NULL }; // passmenu script with history functionality
 static const char *termcmd[]  = { "st", NULL };
 
 static const char scratchpadname[] = "scratchpad";
