@@ -98,10 +98,18 @@ static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34
 
 static Key keys[] = {
     /* modifier                     key        function        argument */
+    { MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
     { MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
     { MODKEY|ControlMask,           XK_d,      spawn,          {.v = dmenu_sudo_cmd } },
+    { MODKEY|ShiftMask,             XK_p,      spawn,          {.v = passmenucmd } },
+	{ MODKEY,                       XK_s,      togglescratch,  {.v = scratchpadcmd } },
 
-    { MODKEY,                       XK_p,      spawn,          {.v = passmenucmd } },
+    /* F4 (Windows display switch) key on my machine sends the Win+p key
+     * combo, so whatever I map to MODKEY+p will be executed when F4 is
+     * pressed. Kind of irritating, so I disable the key combo with an
+     * empty binding. */
+    { MODKEY,                       XK_p,      spawn,          { } },
+
     { MODKEY,                       XK_b,      togglebar,      {0} },
     { MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
     { MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
@@ -119,8 +127,6 @@ static Key keys[] = {
     { MODKEY,                       XK_0,      view,           {.ui = ~0 } },
     { MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
     { MODKEY,                       XK_period, focusmon,       {.i = +1 } },
-    { MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
-	{ MODKEY,                       XK_s,      togglescratch,  {.v = scratchpadcmd } },
 
     { ControlMask|ShiftMask,        XK_j,      movestack,      {.i = +1} },
     { ControlMask|ShiftMask,        XK_k,      movestack,      {.i = -1} },
@@ -131,7 +137,6 @@ static Key keys[] = {
     { MODKEY|ShiftMask,             XK_k,      shiftview,      {.i = +1} },
     { MODKEY|ShiftMask,             XK_j,      shiftview,      {.i = -1} },
 
-    { MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 
     { MODKEY|ShiftMask,             XK_h,      setcfact,       {.f = +0.25} },
     { MODKEY|ShiftMask,             XK_l,      setcfact,       {.f = -0.25} },
@@ -169,6 +174,8 @@ static Key keys[] = {
     { MODKEY,            XK_e,     spawn, SHCMD("st -e $EDITOR") },
     { MODKEY,            XK_c,     spawn, SHCMD("st -f 'mono:pixelsize=20:antialias=true:autohint=true' -e calcurse; pkill -RTMIN+14 dwmblocks") },
     { MODKEY,            XK_space, spawn, SHCMD("$HOME/source/scripts/status/kblayout") },
+
+    { MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 
     TAGKEYS( XK_1, 0 )
     TAGKEYS( XK_2, 1 )
