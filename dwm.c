@@ -384,6 +384,7 @@ movestack(const Arg *arg) {
 void
 gaplessgrid(Monitor *m) {
 	unsigned int n, cols, rows, cn, rn, i, cx, cy, cw, ch;
+    int gapsize = selmon->gappx;
 	Client *c;
 
 	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++) ;
@@ -391,7 +392,7 @@ gaplessgrid(Monitor *m) {
 		return;
 	if(n == 1){
 		c = nexttiled(m->clients);
-		resize(c, m->wx + gappx, m->wy + gappx, m->ww - 2 * c->bw - m->gappx*2, m->wh - 2 * c->bw - m->gappx*2, 0);
+		resize(c, m->wx + gapsize, m->wy + gapsize, m->ww - 2 * c->bw - gapsize*2, m->wh - 2 * c->bw - gapsize*2, 0);
 		return;
 	}
 
@@ -410,10 +411,10 @@ gaplessgrid(Monitor *m) {
 	for(i = 0, c = nexttiled(m->clients); c; i++, c = nexttiled(c->next)) {
 		if(i/rows + 1 > cols - n%cols)
 			rows = n/cols + 1;
-		ch = rows ? (m->wh-m->gappx) / rows : m->wh;
-		cx = m->wx + m->gappx + cn*cw;
-		cy = m->wy + m->gappx + rn*ch;
-		resize(c, cx - cn*m->gappx/cols, cy, cw - 2 * (c->bw) - m->gappx - m->gappx/cols, ch - 2 * c->bw - m->gappx, False);
+		ch = rows ? (m->wh-gapsize) / rows : m->wh;
+		cx = m->wx + gapsize + cn*cw;
+		cy = m->wy + gapsize + rn*ch;
+		resize(c, cx - cn*gapsize/cols, cy, cw - 2 * (c->bw) - gapsize - gapsize/cols, ch - 2 * c->bw - gapsize, False);
 		rn++;
 		if(rn >= rows) {
 			rn = 0;
@@ -2147,6 +2148,7 @@ tile(Monitor *m)
 {
 	unsigned int i, n, h, mw, my, ty, ns;
 	float mfacts = 0, sfacts = 0;
+    int gapsize = selmon->gappx;
 	Client *c;
 
 	for (n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++) {
@@ -2159,7 +2161,7 @@ tile(Monitor *m)
 		return;
 	if(n == 1){
 		c = nexttiled(m->clients);
-		resize(c, m->wx + gappx, m->wy + gappx, m->ww - 2 * c->bw - m->gappx*2, m->wh - 2 * c->bw - m->gappx*2, 0);
+		resize(c, m->wx + gapsize, m->wy + gapsize, m->ww - 2 * c->bw - gapsize*2, m->wh - 2 * c->bw - gapsize*2, 0);
 		return;
 	}
 
@@ -2168,21 +2170,21 @@ tile(Monitor *m)
 		ns = m->nmaster > 0 ? 2 : 1;
 	}
 	else{
-		mw = m->ww - m->gappx;
+		mw = m->ww - gapsize;
 		ns = 1;
 	}
-	for (i = 0, my = ty = m->gappx, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
+	for (i = 0, my = ty = gapsize, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
 		if (i < m->nmaster) {
-			h = (m->wh - my) * (c->cfact / mfacts) - m->gappx;
-			resize(c, m->wx + m->gappx, m->wy + my, mw - 2*c->bw - m->gappx*(5-ns)/2, h - 2*c->bw, 0);
-			if(my + HEIGHT(c) + m->gappx < m->wh)
-				my += HEIGHT(c) + m->gappx;
+			h = (m->wh - my) * (c->cfact / mfacts) - gapsize;
+			resize(c, m->wx + gapsize, m->wy + my, mw - 2*c->bw - gapsize*(5-ns)/2, h - 2*c->bw, 0);
+			if(my + HEIGHT(c) + gapsize < m->wh)
+				my += HEIGHT(c) + gapsize;
 			mfacts -= c->cfact;
 		} else {
-			h = (m->wh - ty) * (c->cfact / sfacts) - m->gappx;
-			resize(c, m->wx + mw + m->gappx/ns, m->wy + ty, m->ww - mw - (2*c->bw) - m->gappx*(5-ns)/2, h - 2*c->bw, 0);
-			if(ty + HEIGHT(c) + m->gappx < m->wh)
-				ty += HEIGHT(c) + m->gappx;
+			h = (m->wh - ty) * (c->cfact / sfacts) - gapsize;
+			resize(c, m->wx + mw + gapsize/ns, m->wy + ty, m->ww - mw - (2*c->bw) - gapsize*(5-ns)/2, h - 2*c->bw, 0);
+			if(ty + HEIGHT(c) + gapsize < m->wh)
+				ty += HEIGHT(c) + gapsize;
 			sfacts -= c->cfact;
 		}
 }
