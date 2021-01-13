@@ -242,7 +242,6 @@ static void tagmon(const Arg *arg);
 static void tile(Monitor *);
 static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
-static void togglescratch(const Arg *arg);
 static void toggletag(const Arg *arg);
 static void toggleview(const Arg *arg);
 static void togglewin(const Arg *arg);
@@ -324,8 +323,6 @@ struct Pertag {
 	int showbars[LENGTH(tags) + 1]; /* display bar for the current tag */
 };
 
-static unsigned int scratchtag = 1 << (LENGTH(tags) - 1);
-int scratchpad_hidden = 1; /* global variable to determine if the scratchpad is hidden ( needed in shiftview, hidescratch and togglescratch updates it ) */
 
 /* compile-time check if all tags fit into an unsigned int bit array. */
 struct NumTags { char limitexceeded[LENGTH(tags) > 31 ? -1 : 1]; };
@@ -424,30 +421,8 @@ gaplessgrid(Monitor *m) {
 }
 
 void
-hidescratch() {
-    if(!scratchpad_hidden){
-        unsigned int newtagset = selmon->tagset[selmon->seltags] ^ scratchtag;
-        if (newtagset) {
-            selmon->tagset[selmon->seltags] = newtagset;
-            focus(NULL);
-            arrange(selmon);
-        }
-        scratchpad_hidden = 1;
-    }
-}
-
-void
-killscratch() {
-    /* shell command to find and kill the window with the name 'scratchpad' */
-    system("xkill -id $(xwininfo -name scratchpad | awk -F \':*\"*\' \'{print $3}\')");
-    scratchpad_hidden = 1;
-}
-
-void
 shiftview(const Arg *arg)
 {
-    hidescratch(); /* if the scratchpad is shown, hide it to avoid confusing shifting of multiple tags */
-
 	Arg a;
 	Client *c;
 	unsigned visible = 0;
@@ -689,8 +664,8 @@ buttonpress(XEvent *e)
 		i = x = 0;
 		do
 			x += TEXTW(tags[i]);
-		while (ev->x >= x && ++i < LENGTH(tags) - 1);
-		if (i < LENGTH(tags) - 1) {
+		while (ev->x >= x && ++i < LENGTH(tags));
+		if (i < LENGTH(tags)) {
 			click = ClkTagBar;
 			arg.ui = 1 << i;
 		} else if (ev->x < x + blw)
@@ -947,7 +922,7 @@ createmon(void)
 	m->pertag = ecalloc(1, sizeof(Pertag));
 	m->pertag->curtag = m->pertag->prevtag = 1;
 
-	for (i = 0; i <= LENGTH(tags) - 1; i++) {
+	for (i = 0; i <= LENGTH(tags); i++) {
 		m->pertag->nmasters[i] = m->nmaster;
 		m->pertag->mfacts[i] = m->mfact;
 
@@ -1036,7 +1011,7 @@ drawbar(Monitor *m)
 			urg |= c->tags;
 	}
 	x = 0;
-	for (i = 0; i < LENGTH(tags) - 1; i++) {
+	for (i = 0; i < LENGTH(tags); i++) {
 		w = TEXTW(tags[i]);
 		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
 		drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
@@ -1414,14 +1389,6 @@ manage(Window w, XWindowAttributes *wa)
 	c->y = MAX(c->y, ((c->mon->by == c->mon->my) && (c->x + (c->w / 2) >= c->mon->wx)
 		&& (c->x + (c->w / 2) < c->mon->wx + c->mon->ww)) ? bh : c->mon->my);
 	c->bw = borderpx;
-
-	selmon->tagset[selmon->seltags] &= ~scratchtag;
-	if (!strcmp(c->name, scratchpadname)) {
-		c->mon->tagset[c->mon->seltags] |= c->tags = scratchtag;
-		c->isfloating = True;
-		c->x = c->mon->wx + (c->mon->ww / 2 - WIDTH(c) / 2);
-		c->y = c->mon->wy + (c->mon->wh / 2 - HEIGHT(c) / 2);
-	}
 
 	wc.border_width = c->bw;
 	XConfigureWindow(dpy, w, CWBorderWidth, &wc);
@@ -2113,7 +2080,6 @@ spawn(const Arg *arg)
 {
 	if (arg->v == dmenucmd)
 		dmenumon[0] = '0' + selmon->num;
-	selmon->tagset[selmon->seltags] &= ~scratchtag;
 	if (fork() == 0) {
 		if (dpy)
 			close(ConnectionNumber(dpy));
@@ -2210,32 +2176,6 @@ togglefloating(const Arg *arg)
 		resize(selmon->sel, selmon->sel->x, selmon->sel->y,
 			selmon->sel->w, selmon->sel->h, 0);
 	arrange(selmon);
-}
-
-void
-togglescratch(const Arg *arg)
-{
-	Client *c;
-	unsigned int found = 0;
-
-	for (c = selmon->clients; c && !(found = c->tags & scratchtag); c = c->next);
-	if (found) {
-		unsigned int newtagset = selmon->tagset[selmon->seltags] ^ scratchtag;
-		if (newtagset) {
-			selmon->tagset[selmon->seltags] = newtagset;
-			focus(NULL);
-			arrange(selmon);
-            scratchpad_hidden = 1;
-		}
-		if (ISVISIBLE(c)) {
-			focus(c);
-			restack(selmon);
-            scratchpad_hidden = 0;
-		}
-	} else {
-		spawn(arg);
-        scratchpad_hidden = 0;
-	}
 }
 
 void
@@ -2879,7 +2819,6 @@ main(int argc, char *argv[])
     runAutostart();
 	run();
 	if(restart) {
-	    killscratch();
         execvp(argv[0], argv);
 	}
 	cleanup();

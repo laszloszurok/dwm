@@ -17,7 +17,7 @@ static const int topbar             = 1;        /* 0 means bottom bar */
 static const char *fonts[]          = { "FontAwesome:size=12", "monospace:size=10" };
 
 /* tagging */
-static const char *tags[] = { "", "", "", "", "", "",  "", "", "", "scratchtag" };
+static const char *tags[] = { "", "", "", "", "", "",  "", "", "" };
 
 static const Rule rules[] = {
     /* xprop(1):
@@ -102,7 +102,6 @@ static Key keys[] = {
     { MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
     { MODKEY|ControlMask,           XK_d,      spawn,          {.v = dmenu_sudo_cmd } },
     { MODKEY|ShiftMask,             XK_p,      spawn,          {.v = passmenucmd } },
-	{ MODKEY,                       XK_s,      togglescratch,  {.v = scratchpadcmd } },
 
     /* F4 (Windows display switch) key on my machine sends the Win+p key
      * combo, so whatever I map to MODKEY+p will be executed when F4 is
@@ -144,6 +143,7 @@ static Key keys[] = {
 
     { MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
     { MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+
     { MODKEY|ShiftMask,             XK_Return, zoom,           {0} },
 
 	{ MODKEY,                       XK_minus,  setgaps,        {.i = -5 } },
