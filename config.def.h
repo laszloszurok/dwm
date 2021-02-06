@@ -9,12 +9,22 @@ static const unsigned int gappx     = 15;       /* gap pixel between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int horizpadbar        = 0;        /* horizontal padding for statusbar */
 static const int vertpadbar         = 7;        /* vertical padding for statusbar */
+static const unsigned int baralpha = 0xd0;
+static const unsigned int borderalpha = OPAQUE;
 
 static const int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 
 static const char *fonts[]          = { "FontAwesome:size=12", "monospace:size=10" };
+
+static const unsigned int alphas[][3]      = {
+	/*               fg      bg        border     */
+	[SchemeNorm] = { OPAQUE, baralpha, borderalpha },
+	[SchemeSel]  = { OPAQUE, baralpha, borderalpha },
+	[SchemeHid] = { OPAQUE, baralpha, borderalpha },
+	[SchemeNotSel]  = { OPAQUE, baralpha, borderalpha },
+};
 
 /* tagging */
 static const char *tags[] = { "", "", "", "", "", "",  "", "", "" };
@@ -26,6 +36,7 @@ static const Rule rules[] = {
      */
 
     /* class|instance|title|tags mask|isfloating|isterminal|noswallow|monitor */
+    { "Yad",                NULL, NULL,        0, 1, 1,  0, -1 },
     { "st-256color",        NULL, NULL,        0, 0, 1,  0, -1 },
     { "firefox",            NULL, NULL,   1 << 1, 0, 0, -1, -1 },
     { "qutebrowser",        NULL, NULL,   1 << 1, 0, 0, -1, -1 },
@@ -71,6 +82,7 @@ static const Layout layouts[] = {
     { "│ ",      monocle },
     { "│ ",      gaplessgrid },
     { "│ ",      NULL },
+	{ NULL,       NULL },
     /* { "│ ",      centeredmaster }, */
     /* { "│ ",      centeredfloatingmaster }, */
 };
@@ -88,9 +100,11 @@ static const Layout layouts[] = {
 
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
-static const char *dmenucmd[] = { "dmenu_hist", NULL }; // make sure it's in $PATH
+/* make sure these are in $PATH */
+static const char *dmenucmd[] = { "dmenu_hist", NULL }; // dmenu script which remembers history
 static const char *dmenu_sudo_cmd[] = { "dmenu_hist", "sudo", NULL }; // running programs with sudo
-static const char *passmenucmd[] = { "passmenu_hist", NULL }; // passmenu script with history functionality
+static const char *passmenucmd[] = { "passmenu_hist", NULL }; // passmenu script which remembers history
+static const char *confmenucmd[] = { "confmenu", NULL }; // script that pipes the contents of the ~/.config dir into dmenu and opens the picked entry in $EDITOR
 static const char *termcmd[]  = { "st", NULL };
 
 static const char scratchpadname[] = "scratchpad";
@@ -102,6 +116,7 @@ static Key keys[] = {
     { MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
     { MODKEY|ControlMask,           XK_d,      spawn,          {.v = dmenu_sudo_cmd } },
     { MODKEY|ShiftMask,             XK_p,      spawn,          {.v = passmenucmd } },
+    { MODKEY|ShiftMask,             XK_c,      spawn,          {.v = confmenucmd } },
 
     /* F4 (Windows display switch) key on my machine sends the Win+p key
      * combo, so whatever I map to MODKEY+p will be executed when F4 is
@@ -114,10 +129,10 @@ static Key keys[] = {
     { MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
     { MODKEY,                       XK_q,      killclient,     {0} },
 
-	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[3]} },
+	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[0]} },
+	{ MODKEY|ShiftMask,             XK_m,      setlayout,      {.v = &layouts[1]} },
+	{ MODKEY|ShiftMask,             XK_g,      setlayout,      {.v = &layouts[2]} },
+	{ MODKEY|ShiftMask,             XK_f,      setlayout,      {.v = &layouts[3]} },
     { Mod1Mask,                     XK_space,  setlayout,      {0} }, /* toggle between this and the last used layout */
     { Mod1Mask|ShiftMask,           XK_space,  togglefloating, {0} }, /* toggle floating for the active window */
 
@@ -171,6 +186,7 @@ static Key keys[] = {
 
     { MODKEY,            XK_v,     spawn, SHCMD("st -e vifm") },
     { MODKEY,            XK_n,     spawn, SHCMD("st -e newsboat; pkill -RTMIN+21 dwmblocks") },
+    { MODKEY,            XK_m,     spawn, SHCMD("st -e neomutt; pkill -RTMIN+11 dwmblocks") },
     { MODKEY,            XK_e,     spawn, SHCMD("st -e $EDITOR") },
     { MODKEY,            XK_c,     spawn, SHCMD("st -f 'mono:pixelsize=20:antialias=true:autohint=true' -e calcurse; pkill -RTMIN+14 dwmblocks") },
     { MODKEY,            XK_space, spawn, SHCMD("$HOME/source/scripts/status/kblayout") },
@@ -192,7 +208,7 @@ static Key keys[] = {
 /* click can be ClkTagBar, ClkStatusText, ClkWinTitle, ClkClientWin, or ClkRootWin */
 static Button buttons[] = {
     /* click                event mask      button          function        argument */
-	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
+	{ ClkLtSymbol,          0,              Button1,        cyclelayout,    {.i = +1} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
     { ClkWinTitle,          0,              Button1,        togglewin,      {0} },
     { ClkWinTitle,          0,              Button2,        zoom,           {0} },
