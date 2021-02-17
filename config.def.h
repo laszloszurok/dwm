@@ -186,7 +186,7 @@ static Key keys[] = {
 
     { MODKEY,            XK_v,     spawn, SHCMD("st -e vifm") },
     { MODKEY,            XK_n,     spawn, SHCMD("st -e newsboat; pkill -RTMIN+21 dwmblocks") },
-    { MODKEY,            XK_m,     spawn, SHCMD("st -e neomutt; pkill -RTMIN+11 dwmblocks") },
+    { MODKEY,            XK_m,     spawn, SHCMD("st -e aerc; pkill -RTMIN+11 dwmblocks") },
     { MODKEY,            XK_e,     spawn, SHCMD("st -e $EDITOR") },
     { MODKEY,            XK_c,     spawn, SHCMD("st -f 'mono:pixelsize=20:antialias=true:autohint=true' -e calcurse; pkill -RTMIN+14 dwmblocks") },
     { MODKEY,            XK_space, spawn, SHCMD("$HOME/source/scripts/status/kblayout") },
