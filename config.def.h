@@ -36,39 +36,41 @@ static const Rule rules[] = {
      */
 
     /* class|instance|title|tags mask|isfloating|isterminal|noswallow|monitor */
-    { "Yad",                NULL, NULL,        0, 1, 1,  0, -1 },
-    { "st-256color",        NULL, NULL,        0, 0, 1,  0, -1 },
-    { "firefox",            NULL, NULL,   1 << 1, 0, 0, -1, -1 },
-    { "qutebrowser",        NULL, NULL,   1 << 1, 0, 0, -1, -1 },
-    { "Brave-browser",      NULL, NULL,   1 << 1, 0, 0, -1, -1 },
-    { "Spotify",            NULL, NULL,   1 << 2, 0, 0,  0, -1 },
-    { "st-256color",        NULL,"ncspot",1 << 2, 0, 1,  0, -1 },
-    { "Skype",              NULL, NULL,   1 << 3, 0, 0,  0, -1 },
-    { "zoom",               NULL, NULL,   1 << 3, 0, 0,  0, -1 },
-    { "Ripcord",            NULL, NULL,   1 << 3, 0, 0,  0, -1 },
-    { "discord",            NULL, NULL,   1 << 3, 0, 0,  0, -1 },
-    { "jetbrains-webstorm", NULL, NULL,   1 << 4, 0, 0,  0, -1 },
-    { "jetbrains-clion",    NULL, NULL,   1 << 4, 0, 0,  0, -1 },
-    { "jetbrains-idea",     NULL, NULL,   1 << 4, 0, 0,  0, -1 },
-    { "jetbrains-idea-ce",  NULL, NULL,   1 << 4, 0, 0,  0, -1 },
-    { "jetbrains-studio",   NULL, NULL,   1 << 4, 0, 0,  0, -1 },
+    { "Yad",                NULL, NULL,           0, 1, 1,  0, -1 },
+    { "st-256color",        NULL, NULL,           0, 0, 1,  0, -1 },
+    { "firefox",            NULL, NULL,      1 << 1, 0, 0, -1, -1 },
+    { "qutebrowser",        NULL, NULL,      1 << 1, 0, 0, -1, -1 },
+    { "Brave-browser",      NULL, NULL,      1 << 1, 0, 0, -1, -1 },
+    { "Spotify",            NULL, NULL,      1 << 2, 0, 0,  0, -1 },
+    { "st-256color",        NULL,"ncspot",   1 << 2, 0, 1,  0, -1 },
+    { "Skype",              NULL, NULL,      1 << 3, 0, 0,  0, -1 },
+    { "zoom",               NULL, NULL,      1 << 3, 0, 0,  0, -1 },
+    { "Ripcord",            NULL, NULL,      1 << 3, 0, 0,  0, -1 },
+    { "discord",            NULL, NULL,      1 << 3, 0, 0,  0, -1 },
+    { "st-256color",        NULL, "weechat", 1 << 3, 0, 0,  0, -1 },
+    { "Element",            NULL, NULL,      1 << 3, 0, 0,  0, -1 },
+    { "jetbrains-webstorm", NULL, NULL,      1 << 4, 0, 0,  0, -1 },
+    { "jetbrains-clion",    NULL, NULL,      1 << 4, 0, 0,  0, -1 },
+    { "jetbrains-idea",     NULL, NULL,      1 << 4, 0, 0,  0, -1 },
+    { "jetbrains-idea-ce",  NULL, NULL,      1 << 4, 0, 0,  0, -1 },
+    { "jetbrains-studio",   NULL, NULL,      1 << 4, 0, 0,  0, -1 },
     { "com.oracle.javafx.scenebuipp.ScederApp",
-                            NULL, NULL,   1 << 4, 0, 0,  0, -1 },
-    { "st-256color",        NULL,"nvim",  1 << 4, 0, 1,  0, -1 },
-    { "code-oss",           NULL, NULL,   1 << 4, 0, 0,  0, -1 },
-    { "VSCodium",           NULL, NULL,   1 << 4, 0, 0,  0, -1 },
-    { "PacketTracer7",      NULL, NULL,   1 << 4, 0, 0,  0, -1 },
-    { "Gimp",               NULL, NULL,   1 << 5, 0, 0,  0, -1 },
-    { "Blender",            NULL, NULL,   1 << 5, 0, 0,  0, -1 },
-    { "Inkscape",           NULL, NULL,   1 << 5, 0, 0,  0, -1 },
-    { "draw.io",            NULL, NULL,   1 << 5, 0, 0,  0, -1 },
-    { "Pcmanfm",            NULL, NULL,   1 << 6, 0, 0,  0, -1 },
-    { "Zathura",            NULL, NULL,   1 << 6, 0, 0,  0, -1 },
-    { "DesktopEditors",     NULL, NULL,   1 << 6, 0, 0,  0, -1 },
-    { "Virt-manager",       NULL, NULL,   1 << 7, 0, 0,  0, -1 },
-    { "VirtualBox Manager", NULL, NULL,   1 << 7, 0, 0,  0, -1 },
-    { "Genymotion",         NULL, NULL,   1 << 7, 0, 0,  0, -1 },
-    { "qBittorrent",        NULL, NULL,   1 << 8, 0, 0,  0, -1 },
+                            NULL, NULL,      1 << 4, 0, 0,  0, -1 },
+    { "st-256color",        NULL,"nvim",     1 << 4, 0, 1,  0, -1 },
+    { "code-oss",           NULL, NULL,      1 << 4, 0, 0,  0, -1 },
+    { "VSCodium",           NULL, NULL,      1 << 4, 0, 0,  0, -1 },
+    { "PacketTracer7",      NULL, NULL,      1 << 4, 0, 0,  0, -1 },
+    { "Gimp",               NULL, NULL,      1 << 5, 0, 0,  0, -1 },
+    { "Blender",            NULL, NULL,      1 << 5, 0, 0,  0, -1 },
+    { "Inkscape",           NULL, NULL,      1 << 5, 0, 0,  0, -1 },
+    { "draw.io",            NULL, NULL,      1 << 5, 0, 0,  0, -1 },
+    { "Pcmanfm",            NULL, NULL,      1 << 6, 0, 0,  0, -1 },
+    { "Zathura",            NULL, NULL,      1 << 6, 0, 0,  0, -1 },
+    { "DesktopEditors",     NULL, NULL,      1 << 6, 0, 0,  0, -1 },
+    { "Virt-manager",       NULL, NULL,      1 << 7, 0, 0,  0, -1 },
+    { "VirtualBox Manager", NULL, NULL,      1 << 7, 0, 0,  0, -1 },
+    { "Genymotion",         NULL, NULL,      1 << 7, 0, 0,  0, -1 },
+    { "qBittorrent",        NULL, NULL,      1 << 8, 0, 0,  0, -1 },
 };
 
 /* layout(s) */
@@ -106,9 +108,6 @@ static const char *dmenu_sudo_cmd[] = { "dmenu_hist", "sudo", NULL }; // running
 static const char *passmenucmd[] = { "passmenu_hist", NULL }; // passmenu script which remembers history
 static const char *confmenucmd[] = { "confmenu", NULL }; // script that pipes the contents of the ~/.config dir into dmenu and opens the picked entry in $EDITOR
 static const char *termcmd[]  = { "st", NULL };
-
-static const char scratchpadname[] = "scratchpad";
-static const char *scratchpadcmd[] = { "st", "-t", scratchpadname, "-g", "120x34", NULL };
 
 static Key keys[] = {
     /* modifier                     key        function        argument */
@@ -184,11 +183,12 @@ static Key keys[] = {
     { MODKEY,            XK_Print, spawn, SHCMD("screenshot -w") },
     { MODKEY|ShiftMask,  XK_Print, spawn, SHCMD("screenshot -s") },
 
-    { MODKEY,            XK_v,     spawn, SHCMD("st -e vifm") },
+    { MODKEY,            XK_v,     spawn, SHCMD("st -e vifmrun") },
     { MODKEY,            XK_n,     spawn, SHCMD("st -e newsboat; pkill -RTMIN+21 dwmblocks") },
     { MODKEY,            XK_m,     spawn, SHCMD("st -e aerc; pkill -RTMIN+11 dwmblocks") },
     { MODKEY,            XK_e,     spawn, SHCMD("st -e $EDITOR") },
     { MODKEY,            XK_c,     spawn, SHCMD("st -f 'mono:pixelsize=20:antialias=true:autohint=true' -e calcurse; pkill -RTMIN+14 dwmblocks") },
+    { MODKEY,            XK_o,     spawn, SHCMD("togglecompositor") },
     { MODKEY,            XK_space, spawn, SHCMD("$HOME/source/scripts/status/kblayout") },
 
     { MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
@@ -209,7 +209,7 @@ static Key keys[] = {
 static Button buttons[] = {
     /* click                event mask      button          function        argument */
 	{ ClkLtSymbol,          0,              Button1,        cyclelayout,    {.i = +1} },
-	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
+	{ ClkLtSymbol,          0,              Button3,        cyclelayout,    {.i = -1} },
     { ClkWinTitle,          0,              Button1,        togglewin,      {0} },
     { ClkWinTitle,          0,              Button2,        zoom,           {0} },
     { ClkStatusText,        0,              Button1,        sigdwmblocks,   {.i = 1} },
