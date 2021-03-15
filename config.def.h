@@ -27,7 +27,8 @@ static const unsigned int alphas[][3]      = {
 };
 
 /* tagging */
-static const char *tags[] = { "", "", "", "", "", "",  "", "", "" };
+/* static const char *tags[] = { "", "", "", "", "", "",  "", "", "" }; */
+static const char *tags[] = { "1", "2", "3", "4", "5", "6",  "7", "8", "9" };
 
 static const Rule rules[] = {
     /* xprop(1):
@@ -36,6 +37,7 @@ static const Rule rules[] = {
      */
 
     /* class|instance|title|tags mask|isfloating|isterminal|noswallow|monitor */
+    { NULL,                 NULL, "Event Tester", 0, 0, 0,  1, -1 },
     { "Yad",                NULL, NULL,           0, 1, 1,  0, -1 },
     { "st-256color",        NULL, NULL,           0, 0, 1,  0, -1 },
     { "firefox",            NULL, NULL,      1 << 1, 0, 0, -1, -1 },
@@ -83,10 +85,10 @@ static const int resizehints = 0;    /* 1 means respect size hints in tiled resi
 
 static const Layout layouts[] = {
     /* symbol     arrange function */
-    { "│ ",      tile },
-    { "│ ",      monocle },
-    { "│ ",      gaplessgrid },
-    { "│ ",      NULL },
+    { "",      tile },
+    { "",      monocle },
+    { "",      gaplessgrid },
+    { "",      NULL },
 	{ NULL,       NULL },
     /* { "│ ",      centeredmaster }, */
     /* { "│ ",      centeredfloatingmaster }, */
@@ -110,7 +112,7 @@ static const char *dmenucmd[] = { "dmenu_hist", NULL }; // dmenu script which re
 static const char *dmenu_sudo_cmd[] = { "dmenu_hist", "sudo", NULL }; // running programs with sudo
 static const char *passmenucmd[] = { "passmenu_hist", NULL }; // passmenu script which remembers history
 static const char *confmenucmd[] = { "confmenu", NULL }; // script that pipes the contents of the ~/.config dir into dmenu and opens the picked entry in $EDITOR
-static const char *termcmd[]  = { "st", NULL };
+static const char *termcmd[]  = { "st", "-t", "simple terminal", NULL };
 
 static Key keys[] = {
     /* modifier                     key        function        argument */
@@ -126,9 +128,11 @@ static Key keys[] = {
      * empty binding. */
     { MODKEY,                       XK_p,      spawn,          { } },
 
-    { MODKEY,                       XK_b,      togglebar,      {0} },
+    { MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
+
     { MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
     { MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
+
     { MODKEY,                       XK_q,      killclient,     {0} },
 
 	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[0]} },
@@ -144,8 +148,8 @@ static Key keys[] = {
     { MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
     { MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 
-    { ControlMask|ShiftMask,        XK_j,      movestack,      {.i = +1} },
-    { ControlMask|ShiftMask,        XK_k,      movestack,      {.i = -1} },
+    { MODKEY|ControlMask,           XK_j,      movestack,      {.i = +1} },
+    { MODKEY|ControlMask,           XK_k,      movestack,      {.i = -1} },
 
     { MODKEY|ShiftMask,             XK_i,      incnmaster,     {.i = +1 } },
     { MODKEY|ShiftMask,             XK_d,      incnmaster,     {.i = -1 } },
@@ -174,26 +178,26 @@ static Key keys[] = {
     { 0, XF86XK_AudioPlay,         spawn, SHCMD("playerctl play-pause") },
     { 0, XF86XK_AudioNext,         spawn, SHCMD("playerctl next") },
 
-    /* 0 is the index of the sink. Use 'pactl list sinks' to get sink names */
-    { 0, XF86XK_AudioRaiseVolume,  spawn, SHCMD("pactl set-sink-volume 0 +5%; pkill -RTMIN+10 dwmblocks") },
-    { 0, XF86XK_AudioLowerVolume,  spawn, SHCMD("pactl set-sink-volume 0 -5%; pkill -RTMIN+10 dwmblocks") },
-    { 0, XF86XK_AudioMute,         spawn, SHCMD("pactl set-sink-mute 0 toggle; pkill -RTMIN+10 dwmblocks") },
+    /* Use 'pactl list sinks' to get sink names */
+    { 0, XF86XK_AudioRaiseVolume,  spawn, SHCMD("pactl set-sink-volume @DEFAULT_SINK@ +5%; pkill -RTMIN+10 dwmblocks") },
+    { 0, XF86XK_AudioLowerVolume,  spawn, SHCMD("pactl set-sink-volume @DEFAULT_SINK@ -5%; pkill -RTMIN+10 dwmblocks") },
+    { 0, XF86XK_AudioMute,         spawn, SHCMD("pactl set-sink-mute @DEFAULT_SINK@ toggle; pkill -RTMIN+10 dwmblocks") },
+    { 0, XF86XK_AudioMicMute,      spawn, SHCMD("pactl set-source-mute 1 toggle; pkill -RTMIN+12 dwmblocks") },
 
-    { 0, XF86XK_MonBrightnessUp,   spawn, SHCMD("xbacklight -inc 3; dunstify --replace=1 \"Brightness $(xbacklight -get | awk '{print int($1)\"%\"}')\"") },
-    { 0, XF86XK_MonBrightnessDown, spawn, SHCMD("xbacklight -dec 3; dunstify --replace=1 \"Brightness $(xbacklight -get | awk '{print int($1)\"%\"}')\"") },
+    { 0, XF86XK_MonBrightnessUp,   spawn, SHCMD("brightness_notify inc") },
+    { 0, XF86XK_MonBrightnessDown, spawn, SHCMD("brightness_notify dec") },
 
-    { 0,                 XK_Print, spawn, SHCMD("screenshot") },
-    { MODKEY,            XK_Print, spawn, SHCMD("screenshot -w") },
-    { MODKEY|ShiftMask,  XK_Print, spawn, SHCMD("screenshot -s") },
+    { 0,                 XK_Print, spawn, SHCMD("flameshot gui") },
 
+    { MODKEY,            XK_b,     spawn, SHCMD("$BROWSER") },
     { MODKEY,            XK_v,     spawn, SHCMD("st -e vifmrun") },
-    { MODKEY,            XK_n,     spawn, SHCMD("st -e newsboat; pkill -RTMIN+21 dwmblocks") },
-    { MODKEY,            XK_m,     spawn, SHCMD("st -e aerc & pkill -RTMIN+11 dwmblocks") },
+    { MODKEY,            XK_n,     spawn, SHCMD("st -e newsboat") },
+    { MODKEY,            XK_m,     spawn, SHCMD("st -e aerc") },
     { MODKEY,            XK_s,     spawn, SHCMD("dunstify \"Running mailsync...\"; mailsync") },
     { MODKEY,            XK_e,     spawn, SHCMD("st -e $EDITOR") },
-    { MODKEY,            XK_c,     spawn, SHCMD("st -f 'mono:pixelsize=20:antialias=true:autohint=true' -e calcurse; pkill -RTMIN+14 dwmblocks") },
+    { MODKEY,            XK_c,     spawn, SHCMD("st -f 'mono:pixelsize=20:antialias=true:autohint=true' -e calcurse") },
     { MODKEY,            XK_o,     spawn, SHCMD("togglecompositor") },
-    { MODKEY,            XK_space, spawn, SHCMD("$HOME/source/scripts/status/kblayout") },
+    { MODKEY,            XK_space, spawn, SHCMD("pkill -RTMIN+14 dwmblocks") },
 
     { MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 
@@ -216,6 +220,7 @@ static Button buttons[] = {
 	{ ClkLtSymbol,          0,              Button3,        cyclelayout,    {.i = -1} },
     { ClkWinTitle,          0,              Button1,        togglewin,      {0} },
     { ClkWinTitle,          0,              Button2,        zoom,           {0} },
+    { ClkWinTitle,          0,              Button3,        toggleshowhide, {0} },
     { ClkStatusText,        0,              Button1,        sigdwmblocks,   {.i = 1} },
     { ClkStatusText,        0,              Button2,        sigdwmblocks,   {.i = 2} },
     { ClkStatusText,        0,              Button3,        sigdwmblocks,   {.i = 3} },
