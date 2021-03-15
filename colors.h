@@ -7,7 +7,7 @@ static const char sel_bg[] = "#563d7c";
 static const char sel_border[] = "#663d9c";
 
 static const char not_sel_fg[] = "#e0dbd2";
-static const char not_sel_bg[]  = "#191b28";
+static const char not_sel_bg[]  = "#444";
 static const char not_sel_border[] = "#333333";
 
 static const char hid_fg[] = "#808080";
