@@ -248,6 +248,7 @@ static void togglefloating(const Arg *arg);
 static void toggletag(const Arg *arg);
 static void toggleview(const Arg *arg);
 static void togglewin(const Arg *arg);
+static void toggleshowhide(const Arg *arg);
 static void unfocus(Client *c, int setfocus);
 static void unmanage(Client *c, int destroyed);
 static void unmapnotify(XEvent *e);
@@ -656,24 +657,30 @@ unswallow(Client *c)
 void
 buttonpress(XEvent *e)
 {
-	unsigned int i, x, click;
+	unsigned int i, x, click, occ = 0;
 	Arg arg = {0};
-	Client *c;
+	Client *c, *sel;
 	Monitor *m;
 	XButtonPressedEvent *ev = &e->xbutton;
 
 	click = ClkRootWin;
 	/* focus monitor if necessary */
 	if ((m = wintomon(ev->window)) && m != selmon) {
-		unfocus(selmon->sel, 1);
+		sel = selmon->sel;
 		selmon = m;
+		unfocus(sel, 1);
 		focus(NULL);
 	}
 	if (ev->window == selmon->barwin) {
 		i = x = 0;
-		do
+		for (c = m->clients; c; c = c->next)
+			occ |= c->tags == 255 ? 0 : c->tags;
+		do {
+			/* do not reserve space for vacant tags */
+			if (!(occ & 1 << i || m->tagset[m->seltags] & 1 << i))
+				continue;
 			x += TEXTW(tags[i]);
-		while (ev->x >= x && ++i < LENGTH(tags));
+		} while (ev->x >= x && ++i < LENGTH(tags));
 		if (i < LENGTH(tags)) {
 			click = ClkTagBar;
 			arg.ui = 1 << i;
@@ -707,8 +714,11 @@ buttonpress(XEvent *e)
 				do {
 					if (!ISVISIBLE(c))
 						continue;
-					else
-						x += (1.0 / (double)m->bt) * m->btw;
+                    else {
+                        int tabw = (1.0 / (double)m->bt) * m->btw;
+                        if (tabw > 250) tabw = 250;
+						x += tabw;
+                    }
 				} while (ev->x > x && (c = c->next));
 
 				click = ClkWinTitle;
@@ -850,7 +860,7 @@ configurenotify(XEvent *e)
 void
 configurerequest(XEvent *e)
 {
-	Client *c;
+	Client *c, *sel;
 	Monitor *m;
 	XConfigureRequestEvent *ev = &e->xconfigurerequest;
 	XWindowChanges wc;
@@ -1032,19 +1042,23 @@ drawbar(Monitor *m)
 	for (c = m->clients; c; c = c->next) {
 		if (ISVISIBLE(c))
 			n++;
-		occ |= c->tags;
+		occ |= c->tags == 255 ? 0 : c->tags;
 		if (c->isurgent)
 			urg |= c->tags;
 	}
 	x = 0;
 	for (i = 0; i < LENGTH(tags); i++) {
+		/* do not draw vacant tags */
+		if (!(occ & 1 << i || m->tagset[m->seltags] & 1 << i))
+		continue;
+
 		w = TEXTW(tags[i]);
 		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
 		drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
-		if (occ & 1 << i)
-			drw_rect(drw, x + boxw, 0, w - ( 2 * boxw + 1), boxw/2+1,
-			    1,
-			    urg & 1 << i);
+		/* if (occ & 1 << i) */
+		/* 	drw_rect(drw, x + boxw, 0, w - ( 2 * boxw + 1), boxw/2+1, */
+		/* 	    1, */
+		/* 	    urg & 1 << i); */
 
 		x += w;
 	}
@@ -1055,26 +1069,30 @@ drawbar(Monitor *m)
 
 	if ((w = m->ww - tw - x) > bh) {
 		if (n > 0) {
+			drw_setscheme(drw, scheme[SchemeNorm]);
+			drw_rect(drw, x, 0, w, bh, 1, 1);
 			int remainder = w % n;
 			int tabw = (1.0 / (double)n) * w + 1;
+            if (tabw > 250) tabw = 250;
 			for (c = m->clients; c; c = c->next) {
 				if (!ISVISIBLE(c))
 					continue;
 				if (m->sel == c)
-                    if (n == 1) scm = SchemeNorm;
-                    else scm = SchemeSel;
+                    /* if (n == 1) scm = SchemeNorm; */
+                    /* else scm = SchemeSel; */
+                    scm = SchemeSel;
 				else if (HIDDEN(c))
 					scm = SchemeHid;
 				else
 					scm = SchemeNotSel;
 				drw_setscheme(drw, scheme[scm]);
 
-				if (remainder >= 0) {
-					if (remainder == 0) {
-						tabw--;
-					}
-					remainder--;
-				}
+				/* if (remainder >= 0) { */
+				/* 	if (remainder == 0) { */
+				/* 		tabw--; */
+				/* 	} */
+				/* 	remainder--; */
+				/* } */
 				drw_text(drw, x, 0, tabw, bh, lrpad / 2, c->name, 0);
 				x += tabw;
 			}
@@ -1147,13 +1165,15 @@ void
 focusmon(const Arg *arg)
 {
 	Monitor *m;
+	Client *sel;
 
 	if (!mons->next)
 		return;
 	if ((m = dirtomon(arg->i)) == selmon)
 		return;
-	unfocus(selmon->sel, 0);
+	sel = selmon->sel;
 	selmon = m;
+	unfocus(sel, 0);
 	focus(NULL);
 }
 
@@ -1488,13 +1508,15 @@ motionnotify(XEvent *e)
 {
 	static Monitor *mon = NULL;
 	Monitor *m;
+	Client *sel;
 	XMotionEvent *ev = &e->xmotion;
 
 	if (ev->window != root)
 		return;
 	if ((m = recttomon(ev->x_root, ev->y_root, 1, 1)) != mon && mon) {
-		unfocus(selmon->sel, 1);
+		sel = selmon->sel;
 		selmon = m;
+		unfocus(sel, 1);
 		focus(NULL);
 	}
 	mon = m;
@@ -2263,6 +2285,7 @@ void
 togglewin(const Arg *arg)
 {
 	Client *c = (Client*)arg->v;
+    if (!c) return;
 	if (c == selmon->sel)
 		hide(c);
 	else {
@@ -2274,10 +2297,23 @@ togglewin(const Arg *arg)
 }
 
 void
+toggleshowhide(const Arg *arg) 
+{
+	Client *c = (Client*)arg->v;
+    if (!c) return;
+		if (HIDDEN(c))
+			show(c);
+        else
+            hide(c);
+}
+
+void
 unfocus(Client *c, int setfocus)
 {
 	if (!c)
 		return;
+	if (c->isfullscreen && ISVISIBLE(c) && c->mon == selmon)
+		setfullscreen(c, 0);
 	grabbuttons(c, 0);
 	XSetWindowBorder(dpy, c->win, scheme[SchemeNorm][ColBorder].pixel);
 	if (setfocus) {
