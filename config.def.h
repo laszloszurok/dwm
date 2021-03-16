@@ -89,9 +89,7 @@ static const Layout layouts[] = {
     { "",      monocle },
     { "",      gaplessgrid },
     { "",      NULL },
-	{ NULL,       NULL },
-    /* { "│ ",      centeredmaster }, */
-    /* { "│ ",      centeredfloatingmaster }, */
+	{ NULL,     NULL },
 };
 
 /* key definitions */
