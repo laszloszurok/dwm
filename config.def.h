@@ -36,7 +36,7 @@ static const Rule rules[] = {
      *	WM_NAME(STRING) = title
      */
 
-    /* class|instance|title|tags mask|isfloating|isterminal|noswallow|monitor */
+    /* class | instance | title | tags mask | switchtotag | isfloating | isterminal | noswallow | monitor */
     { NULL,                 NULL, "Event Tester", 0, 1, 0, 0,  1, -1 },
     { "Yad",                NULL, NULL,           0, 1, 1, 1,  0, -1 },
     { "st-256color",        NULL, NULL,           0, 1, 0, 1,  0, -1 },
