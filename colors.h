@@ -14,10 +14,13 @@ static const char hid_fg[] = "#808080";
 static const char hid_bg[] = "#191b28";
 static const char hid_border[] = "#000";
 
+static const char separator[] = "#191b28";
+
 static const char *colors[][3]      = {
     /*                 fg          bg          border                         */
     [SchemeNorm]   = { norm_fg,    norm_bg,    norm_border }, 
     [SchemeSel]    = { sel_fg,     sel_bg,     sel_border },  // the focused win
 	[SchemeHid]    = { hid_fg,     hid_bg,     hid_border },
-    [SchemeNotSel] = { not_sel_fg, not_sel_bg, not_sel_border }  // unfocused wins
+    [SchemeNotSel] = { not_sel_fg, not_sel_bg, not_sel_border },  // unfocused wins
+    [SchemeSeparator] = { separator, separator, separator }  // separator line
 };

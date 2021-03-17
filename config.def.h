@@ -24,6 +24,7 @@ static const unsigned int alphas[][3]      = {
 	[SchemeSel]  = { OPAQUE, baralpha, borderalpha },
 	[SchemeHid] = { OPAQUE, baralpha, borderalpha },
 	[SchemeNotSel]  = { OPAQUE, baralpha, borderalpha },
+	[SchemeSeparator]  = { OPAQUE, baralpha, borderalpha },
 };
 
 /* tagging */

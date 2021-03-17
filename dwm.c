@@ -69,7 +69,7 @@
 
 /* enums */
 enum { CurNormal, CurResize, CurMove, CurLast }; /* cursor */
-enum { SchemeNorm, SchemeSel, SchemeHid, SchemeNotSel }; /* color schemes */
+enum { SchemeNorm, SchemeSel, SchemeHid, SchemeNotSel, SchemeSeparator }; /* color schemes */
 enum { NetSupported, NetWMName, NetWMState, NetWMCheck,
        NetWMFullscreen, NetActiveWindow, NetWMWindowType,
        NetWMWindowTypeDialog, NetClientList, NetLast }; /* EWMH atoms */
@@ -1078,9 +1078,10 @@ drawbar(Monitor *m)
 		if (n > 0) {
 			drw_setscheme(drw, scheme[SchemeNorm]);
 			drw_rect(drw, x, 0, w, bh, 1, 1);
-			int remainder = w % n;
-			int tabw = (1.0 / (double)n) * w + 1;
-            if (tabw > 250) tabw = 250;
+
+            int tabw = 250;
+			int remainder = w - (n * tabw + 3);
+
 			for (c = m->clients; c; c = c->next) {
 				if (!ISVISIBLE(c))
 					continue;
@@ -1094,14 +1095,19 @@ drawbar(Monitor *m)
 					scm = SchemeNotSel;
 				drw_setscheme(drw, scheme[scm]);
 
-				/* if (remainder >= 0) { */
-				/* 	if (remainder == 0) { */
-				/* 		tabw--; */
-				/* 	} */
-				/* 	remainder--; */
-				/* } */
+				if (remainder < tabw) {
+                    tabw = w / n - 3;
+				}
+
 				drw_text(drw, x, 0, tabw, bh, lrpad / 2, c->name, 0);
 				x += tabw;
+
+                /* drawing a separator line between the window titles in the bar */
+                int sep_w = 3;
+				drw_setscheme(drw, scheme[SchemeSeparator]);
+                drw_rect(drw, x, 0, sep_w, bh, 1, 1);
+                x += sep_w;
+
 			}
 		} else {
 			drw_setscheme(drw, scheme[SchemeNorm]);
