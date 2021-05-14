@@ -72,7 +72,6 @@ static const Rule rules[] = {
     { "Inkscape",           NULL, NULL,      1 << 5, 1, 0, 0,  0, -1 },
     { "draw.io",            NULL, NULL,      1 << 5, 1, 0, 0,  0, -1 },
     { "Pcmanfm",            NULL, NULL,      1 << 6, 1, 0, 0,  0, -1 },
-    { "Zathura",            NULL, NULL,      1 << 6, 1, 0, 0,  0, -1 },
     { "DesktopEditors",     NULL, NULL,      1 << 6, 1, 0, 0,  0, -1 },
     { "Virt-manager",       NULL, NULL,      1 << 7, 1, 0, 0,  0, -1 },
     { "VirtualBox Manager", NULL, NULL,      1 << 7, 1, 0, 0,  0, -1 },
@@ -112,6 +111,7 @@ static const char *dmenucmd[] = { "dmenu_hist", NULL }; // dmenu script which re
 static const char *dmenu_sudo_cmd[] = { "dmenu_hist", "sudo", NULL }; // running programs with sudo
 static const char *passmenucmd[] = { "passmenu_hist", NULL }; // passmenu script which remembers history
 static const char *confmenucmd[] = { "confmenu", NULL }; // script that pipes the contents of the ~/.config dir into dmenu and opens the picked entry in $EDITOR
+static const char *powermenucmd[] = { "powermenu", NULL }; // options to reboot, shutdown, suspend, etc 
 static const char *termcmd[]  = { "st", "-t", "simple terminal", NULL };
 
 static Key keys[] = {
@@ -120,13 +120,8 @@ static Key keys[] = {
     { MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
     { MODKEY|ControlMask,           XK_d,      spawn,          {.v = dmenu_sudo_cmd } },
     { MODKEY|ShiftMask,             XK_p,      spawn,          {.v = passmenucmd } },
-    { MODKEY|ShiftMask,             XK_c,      spawn,          {.v = confmenucmd } },
-
-    /* F4 (Windows display switch) key on my machine sends the Win+p key
-     * combo, so whatever I map to MODKEY+p will be executed when F4 is
-     * pressed. Kind of irritating, so I disable the key combo with an
-     * empty binding. */
-    { MODKEY,                       XK_p,      spawn,          { } },
+    { MODKEY,                       XK_p,      spawn,          {.v = powermenucmd } },
+    { MODKEY|ShiftMask,             XK_e,      spawn,          {.v = confmenucmd } },
 
     { MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
 
