@@ -7,8 +7,8 @@
 static const unsigned int borderpx  = 3;        /* border pixel of windows */
 static const unsigned int gappx     = 15;       /* gap pixel between windows */
 static const unsigned int snap      = 32;       /* snap pixel */
-static const int horizpadbar        = 0;        /* horizontal padding for statusbar */
-static const int vertpadbar         = 7;        /* vertical padding for statusbar */
+static const int horizpadbar        = 5;        /* horizontal padding for statusbar */
+static const int vertpadbar         = 12;        /* vertical padding for statusbar */
 static const unsigned int baralpha = 0xd0;
 static const unsigned int borderalpha = OPAQUE;
 
@@ -16,7 +16,7 @@ static const int swallowfloating    = 0;        /* 1 means swallow floating wind
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 
-static const char *fonts[]          = { "FontAwesome:size=12", "monospace:size=10" };
+static const char *fonts[]          = { "Font Awesome 5 Free Solid:size:pixelsize=13:antialias=true:autohint=true", "DejaVu Sans:style=Book:size:pixelsize=16" };
 
 static const unsigned int alphas[][3]      = {
 	/*               fg      bg        border     */
