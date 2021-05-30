@@ -194,7 +194,7 @@ static Key keys[] = {
     { MODKEY,            XK_e,     spawn, SHCMD("st -e $EDITOR") },
     { MODKEY,            XK_c,     spawn, SHCMD("st -f 'mono:pixelsize=20:antialias=true:autohint=true' -e calcurse") },
     { MODKEY,            XK_o,     spawn, SHCMD("togglecompositor") },
-    { MODKEY,            XK_space, spawn, SHCMD("pkill -RTMIN+14 dwmblocks") },
+    { MODKEY,            XK_space, spawn, SHCMD("togglekb; pkill -RTMIN+14 dwmblocks") },
 
     { MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 
