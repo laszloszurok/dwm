@@ -17,7 +17,7 @@ static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
 
 static const char *fonts[]          = { 
-    "DejaVu Sans:style=Book:size:pixelsize=16",
+    "DejaVu Sans::size:pixelsize=16",
     "Font Awesome 5 Free Solid:size:pixelsize=13:antialias=true:autohint=true"
 };
 
