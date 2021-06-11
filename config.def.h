@@ -116,7 +116,8 @@ static const char *passmenucmd[] = { "passmenu_hist", NULL }; // passmenu script
 static const char *confmenucmd[] = { "confmenu", NULL }; // script that pipes the contents of the ~/.config dir into dmenu and opens the picked entry in $EDITOR
 static const char *powermenucmd[] = { "powermenu", NULL }; // options to reboot, shutdown, suspend, etc 
 static const char *clipmenucmd[] = { "clipmenu_wrapper", NULL }; // clipboard history
-static const char *bookmarkmenucmd[] = { "bookmarkmenu", NULL }; // clipboard history
+static const char *bookmarkmenucmd[] = { "bookmarkmenu", NULL }; // saved urls
+static const char *manmenucmd[] = { "manmenu", NULL }; // browse manpages
 static const char *termcmd[]  = { "st", "-t", "simple terminal", NULL };
 
 static Key keys[] = {
@@ -129,6 +130,7 @@ static Key keys[] = {
     { MODKEY|ShiftMask,             XK_e,      spawn,          {.v = confmenucmd } },
     { MODKEY|ShiftMask,             XK_c,      spawn,          {.v = clipmenucmd } },
     { MODKEY|ShiftMask,             XK_b,      spawn,          {.v = bookmarkmenucmd } },
+    { Mod1Mask,                     XK_m,      spawn,          {.v = manmenucmd } },
 
     { MODKEY,                       XK_t,      togglebar,      {0} },
 
