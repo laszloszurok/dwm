@@ -2212,7 +2212,7 @@ tile(Monitor *m)
 		ns = m->nmaster > 0 ? 2 : 1;
 	}
 	else{
-		mw = m->ww - gapsize;
+		mw = m->ww;
 		ns = 1;
 	}
 	for (i = 0, my = ty = gapsize, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
