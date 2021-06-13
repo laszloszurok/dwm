@@ -1801,7 +1801,7 @@ run(void)
 
 void
 runAutostart(void) {
-	system("cd ~/.config; ./autostart.sh &");
+	system("wmname LG3D &");
 }
 
 void
