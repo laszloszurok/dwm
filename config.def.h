@@ -41,45 +41,72 @@ static const Rule rules[] = {
      */
 
     /* class | instance | title | tags mask | switchtotag | isfloating | isterminal | noswallow | monitor */
+
+    /* no specific tag */
     { NULL,                 NULL, "Event Tester", 0, 0, 0, 0,  1, -1 },
     { "Yad",                NULL, NULL,           0, 0, 1, 1,  0, -1 },
     { "st-256color",        NULL, NULL,           0, 0, 0, 1,  0, -1 },
-    { "firefox",            NULL, NULL,      1 << 1, 1, 0, 0, -1, -1 },
-    { "qutebrowser",        NULL, NULL,      1 << 1, 1, 0, 0, -1, -1 },
-    { "Brave-browser",      NULL, NULL,      1 << 1, 1, 0, 0, -1, -1 },
-    { "st-256color",        NULL, "newsboat",1 << 1, 1, 0, 0, -1, -1 },
-    { "Spotify",            NULL, NULL,      1 << 2, 1, 0, 0,  0, -1 },
-    { "st-256color",        NULL, "ncspot",  1 << 2, 1, 0, 1,  0, -1 },
-    { "st-256color",        NULL, "lyrics",  1 << 2, 1, 0, 1,  0, -1 },
-    { "Skype",              NULL, NULL,      1 << 3, 1, 0, 0,  0, -1 },
-    { "zoom",               NULL, NULL,      1 << 3, 1, 0, 0,  0, -1 },
-    { "Ripcord",            NULL, NULL,      1 << 3, 1, 0, 0,  0, -1 },
-    { "discord",            NULL, NULL,      1 << 3, 1, 0, 0,  0, -1 },
-    { "st-256color",        NULL, "weechat", 1 << 3, 1, 0, 0,  0, -1 },
-    { "Signal",             NULL, NULL,      1 << 3, 1, 0, 0,  0, -1 },
-    { "Element",            NULL, NULL,      1 << 3, 1, 0, 0,  0, -1 },
-    { "st-256color",        NULL, "aerc",    1 << 3, 1, 0, 0,  0, -1 },
-    { "jetbrains-webstorm", NULL, NULL,      1 << 4, 1, 0, 0,  0, -1 },
-    { "jetbrains-clion",    NULL, NULL,      1 << 4, 1, 0, 0,  0, -1 },
-    { "jetbrains-idea",     NULL, NULL,      1 << 4, 1, 0, 0,  0, -1 },
-    { "jetbrains-idea-ce",  NULL, NULL,      1 << 4, 1, 0, 0,  0, -1 },
-    { "jetbrains-studio",   NULL, NULL,      1 << 4, 1, 0, 0,  0, -1 },
+
+    /* tag 1 */
+    { "firefox",            NULL, NULL,           1, 1, 0, 0, -1, -1 },
+    { "qutebrowser",        NULL, NULL,           1, 1, 0, 0, -1, -1 },
+    { "Brave-browser",      NULL, NULL,           1, 1, 0, 0, -1, -1 },
+    { "st-256color",        NULL, "newsboat",     1, 1, 0, 0, -1, -1 },
+
+    /* tag 2 */
     { "com.oracle.javafx.scenebuipp.ScederApp",
-                            NULL, NULL,      1 << 4, 1, 0, 0,  0, -1 },
-    { "st-256color",        NULL,"nvim",     1 << 4, 1, 0, 1,  0, -1 },
-    { "code-oss",           NULL, NULL,      1 << 4, 1, 0, 0,  0, -1 },
-    { "VSCodium",           NULL, NULL,      1 << 4, 1, 0, 0,  0, -1 },
-    { "PacketTracer7",      NULL, NULL,      1 << 4, 1, 0, 0,  0, -1 },
-    { "Gimp",               NULL, NULL,      1 << 5, 1, 0, 0,  0, -1 },
-    { "Blender",            NULL, NULL,      1 << 5, 1, 0, 0,  0, -1 },
-    { "Inkscape",           NULL, NULL,      1 << 5, 1, 0, 0,  0, -1 },
-    { "draw.io",            NULL, NULL,      1 << 5, 1, 0, 0,  0, -1 },
-    { "Pcmanfm",            NULL, NULL,      1 << 6, 1, 0, 0,  0, -1 },
-    { "DesktopEditors",     NULL, NULL,      1 << 6, 1, 0, 0,  0, -1 },
-    { "Virt-manager",       NULL, NULL,      1 << 7, 1, 0, 0,  0, -1 },
-    { "VirtualBox Manager", NULL, NULL,      1 << 7, 1, 0, 0,  0, -1 },
-    { "Genymotion",         NULL, NULL,      1 << 7, 1, 0, 0,  0, -1 },
-    { "qBittorrent",        NULL, NULL,      1 << 8, 1, 0, 0,  0, -1 },
+                            NULL, NULL,      1 << 1, 1, 0, 0,  0, -1 },
+    { "jetbrains-webstorm", NULL, NULL,      1 << 1, 1, 0, 0,  0, -1 },
+    { "jetbrains-clion",    NULL, NULL,      1 << 1, 1, 0, 0,  0, -1 },
+    { "jetbrains-idea",     NULL, NULL,      1 << 1, 1, 0, 0,  0, -1 },
+    { "jetbrains-idea-ce",  NULL, NULL,      1 << 1, 1, 0, 0,  0, -1 },
+    { "jetbrains-studio",   NULL, NULL,      1 << 1, 1, 0, 0,  0, -1 },
+    { "code-oss",           NULL, NULL,      1 << 1, 1, 0, 0,  0, -1 },
+    { "VSCodium",           NULL, NULL,      1 << 1, 1, 0, 0,  0, -1 },
+    { "Pcmanfm",            NULL, NULL,      1 << 1, 1, 0, 0,  0, -1 },
+    { "st-256color",        NULL,"vifm",     1 << 1, 1, 0, 1,  0, -1 },
+    { "st-256color",        NULL,"nvim",     1 << 1, 1, 0, 1,  0, -1 },
+    { "st-256color",        NULL,"nvr",      1 << 1, 1, 0, 1,  0, -1 },
+    { "st-256color",        NULL,"lazygit",  1 << 1, 1, 0, 1,  0, -1 },
+
+    /* tag 3 */
+    { "DesktopEditors",     NULL, NULL,      1 << 2, 1, 0, 0,  0, -1 },
+    { "libreoffice",        NULL, NULL,      1 << 2, 1, 0, 0,  0, -1 },
+    { "Soffice",            NULL, NULL,      1 << 2, 1, 0, 0,  0, -1 },
+    { "Zathura",            NULL, NULL,      1 << 2, 1, 0, 0,  0, -1 },
+
+    /* tag 4 */
+    { "Gimp",               NULL, NULL,      1 << 3, 1, 0, 0,  0, -1 },
+    { "Blender",            NULL, NULL,      1 << 3, 1, 0, 0,  0, -1 },
+    { "Inkscape",           NULL, NULL,      1 << 3, 1, 0, 0,  0, -1 },
+    { "draw.io",            NULL, NULL,      1 << 3, 1, 0, 0,  0, -1 },
+    
+    /* tag 5 */
+    { "Spotify",            NULL, NULL,      1 << 4, 1, 0, 0,  0, -1 },
+    { "st-256color",        NULL, "ncspot",  1 << 4, 1, 0, 1,  0, -1 },
+    { "st-256color",        NULL, "lyrics",  1 << 4, 1, 0, 1,  0, -1 },
+
+    /* tag 6 */
+    { "Skype",              NULL, NULL,      1 << 5, 1, 0, 0,  0, -1 },
+    { "zoom",               NULL, NULL,      1 << 5, 1, 0, 0,  0, -1 },
+    { "Ripcord",            NULL, NULL,      1 << 5, 1, 0, 0,  0, -1 },
+    { "discord",            NULL, NULL,      1 << 5, 1, 0, 0,  0, -1 },
+    { "Signal",             NULL, NULL,      1 << 5, 1, 0, 0,  0, -1 },
+    { "Element",            NULL, NULL,      1 << 5, 1, 0, 0,  0, -1 },
+    { "st-256color",        NULL, "aerc",    1 << 5, 1, 0, 0,  0, -1 },
+    { "st-256color",        NULL, "weechat", 1 << 5, 1, 0, 0,  0, -1 },
+
+    /* tag 7 */
+    { "Virt-manager",       NULL, NULL,      1 << 6, 1, 0, 0,  0, -1 },
+    { "VirtualBox Manager", NULL, NULL,      1 << 6, 1, 0, 0,  0, -1 },
+    { "Genymotion",         NULL, NULL,      1 << 6, 1, 0, 0,  0, -1 },
+
+    /* tag 8 */
+    { "qBittorrent",        NULL, NULL,      1 << 7, 1, 0, 0,  0, -1 },
+
+    /* tag 9 */
+    { "st-256color",        NULL, "kmon",    1 << 8, 1, 0, 0,  0, -1 },
+    { "st-256color",        NULL, "btm",     1 << 8, 1, 0, 0,  0, -1 },
 };
 
 /* layout(s) */
@@ -118,6 +145,7 @@ static const char *powermenucmd[] = { "powermenu", NULL }; // options to reboot,
 static const char *clipmenucmd[] = { "clipmenu_wrapper", NULL }; // clipboard history
 static const char *bookmarkmenucmd[] = { "bookmarkmenu", NULL }; // saved urls
 static const char *manmenucmd[] = { "manmenu", NULL }; // browse manpages
+static const char *projectmenucmd[] = { "projectmenu", NULL }; // browse manpages
 static const char *termcmd[]  = { "st", "-t", "simple terminal", NULL };
 
 static Key keys[] = {
@@ -131,6 +159,7 @@ static Key keys[] = {
     { MODKEY|ShiftMask,             XK_c,      spawn,          {.v = clipmenucmd } },
     { MODKEY|ShiftMask,             XK_b,      spawn,          {.v = bookmarkmenucmd } },
     { Mod1Mask,                     XK_m,      spawn,          {.v = manmenucmd } },
+    { MODKEY,                       XK_g,      spawn,          {.v = projectmenucmd } },
 
     { MODKEY,                       XK_t,      togglebar,      {0} },
 
@@ -161,7 +190,6 @@ static Key keys[] = {
     { MODKEY|ShiftMask,             XK_k,      shiftview,      {.i = +1} },
     { MODKEY|ShiftMask,             XK_j,      shiftview,      {.i = -1} },
 
-
     { MODKEY|ShiftMask,             XK_h,      setcfact,       {.f = +0.25} },
     { MODKEY|ShiftMask,             XK_l,      setcfact,       {.f = -0.25} },
     { MODKEY|ShiftMask,             XK_o,      setcfact,       {.f =  0.00} },
@@ -191,17 +219,21 @@ static Key keys[] = {
     { 0, XF86XK_MonBrightnessUp,   spawn, SHCMD("brightness_notify inc") },
     { 0, XF86XK_MonBrightnessDown, spawn, SHCMD("brightness_notify dec") },
 
-    { 0,                 XK_Print, spawn, SHCMD("flameshot gui") },
+    { 0, XK_Print,                 spawn, SHCMD("flameshot gui") },
 
-    { MODKEY,            XK_b,     spawn, SHCMD("$BROWSER") },
-    { MODKEY,            XK_v,     spawn, SHCMD("st -e vifmrun") },
-    { MODKEY,            XK_n,     spawn, SHCMD("st -e newsboat") },
-    { MODKEY,            XK_m,     spawn, SHCMD("st -e aerc") },
-    { MODKEY,            XK_s,     spawn, SHCMD("dunstify \"Running mailsync...\"; mailsync") },
-    { MODKEY,            XK_e,     spawn, SHCMD("st -e $EDITOR") },
-    { MODKEY,            XK_c,     spawn, SHCMD("st -f 'mono:pixelsize=20:antialias=true:autohint=true' -e calcurse") },
-    { MODKEY,            XK_o,     spawn, SHCMD("togglecompositor") },
-    { MODKEY,            XK_space, spawn, SHCMD("togglekb; pkill -RTMIN+14 dwmblocks") },
+    { MODKEY,  XK_b,     spawn, SHCMD("$BROWSER") },
+    { MODKEY,  XK_v,     spawn, SHCMD("st -e vifmrun") },
+    { MODKEY,  XK_n,     spawn, SHCMD("st -e newsboat") },
+    { MODKEY,  XK_m,     spawn, SHCMD("st -e aerc") },
+    { MODKEY,  XK_s,     spawn, SHCMD("dunstify \"Running mailsync...\"; mailsync") },
+    { MODKEY,  XK_e,     spawn, SHCMD("st -e $EDITOR") },
+    { MODKEY,  XK_c,     spawn, SHCMD("st -f 'mono:pixelsize=20:antialias=true:autohint=true' -e calcurse") },
+    { MODKEY,  XK_o,     spawn, SHCMD("togglecompositor") },
+    { MODKEY,  XK_space, spawn, SHCMD("togglekb; pkill -RTMIN+14 dwmblocks") },
+
+    { Mod1Mask,           XK_c, spawn, SHCMD("dunstctl close") },
+    { Mod1Mask|ShiftMask, XK_c, spawn, SHCMD("dunstctl close-all") },
+    { Mod1Mask,           XK_h, spawn, SHCMD("dunstctl history-pop") },
 
     { MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 
