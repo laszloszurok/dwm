@@ -1089,9 +1089,9 @@ drawbar(Monitor *m)
 				if (!ISVISIBLE(c))
 					continue;
 				if (m->sel == c)
-                    /* if (n == 1) scm = SchemeNorm; */
-                    /* else scm = SchemeSel; */
-                    scm = SchemeSel;
+                    if (n == 1) scm = SchemeNorm;
+                    else scm = SchemeSel;
+                    /* scm = SchemeSel; */
 				else if (HIDDEN(c))
 					scm = SchemeHid;
 				else
