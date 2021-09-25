@@ -144,8 +144,7 @@ static const char *confmenucmd[] = { "confmenu", NULL }; // script that pipes th
 static const char *powermenucmd[] = { "powermenu", NULL }; // options to reboot, shutdown, suspend, etc 
 static const char *clipmenucmd[] = { "clipmenu_wrapper", NULL }; // clipboard history
 static const char *bookmarkmenucmd[] = { "bookmarkmenu", NULL }; // saved urls
-static const char *manmenucmd[] = { "manmenu", NULL }; // browse manpages
-static const char *projectmenucmd[] = { "projectmenu", NULL }; // browse manpages
+static const char *repolist[] = { "repolist", NULL }; // browse manpages
 static const char *termcmd[]  = { "st", "-t", "simple terminal", NULL };
 
 static Key keys[] = {
@@ -158,8 +157,7 @@ static Key keys[] = {
     { MODKEY|ShiftMask,             XK_e,      spawn,          {.v = confmenucmd } },
     { MODKEY|ShiftMask,             XK_c,      spawn,          {.v = clipmenucmd } },
     { MODKEY|ShiftMask,             XK_b,      spawn,          {.v = bookmarkmenucmd } },
-    { Mod1Mask,                     XK_m,      spawn,          {.v = manmenucmd } },
-    { MODKEY,                       XK_g,      spawn,          {.v = projectmenucmd } },
+    { MODKEY|ShiftMask,             XK_g,      spawn,          {.v = repolist } },
 
     { MODKEY,                       XK_t,      togglebar,      {0} },
 
@@ -168,10 +166,10 @@ static Key keys[] = {
 
     { MODKEY,                       XK_q,      killclient,     {0} },
 
-	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY|ShiftMask,             XK_m,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY|ShiftMask,             XK_g,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY|ShiftMask,             XK_f,      setlayout,      {.v = &layouts[3]} },
+	{ Mod1Mask,                     XK_t,      setlayout,      {.v = &layouts[0]} },
+	{ Mod1Mask,                     XK_m,      setlayout,      {.v = &layouts[1]} },
+	{ Mod1Mask,                     XK_g,      setlayout,      {.v = &layouts[2]} },
+	{ Mod1Mask,                     XK_f,      setlayout,      {.v = &layouts[3]} },
     { Mod1Mask,                     XK_space,  setlayout,      {0} }, /* toggle between this and the last used layout */
     { Mod1Mask|ShiftMask,           XK_space,  togglefloating, {0} }, /* toggle floating for the active window */
 
@@ -222,11 +220,12 @@ static Key keys[] = {
     { 0, XK_Print,                 spawn, SHCMD("flameshot gui") },
 
     { MODKEY,  XK_b,     spawn, SHCMD("$BROWSER") },
-    { MODKEY,  XK_v,     spawn, SHCMD("st -e vifmrun") },
-    { MODKEY,  XK_n,     spawn, SHCMD("st -e newsboat") },
-    { MODKEY,  XK_m,     spawn, SHCMD("st -e aerc") },
+    { MODKEY,  XK_v,     spawn, SHCMD("$TERMINAL vifmrun") },
+    { MODKEY,  XK_n,     spawn, SHCMD("$TERMINAL newsboat") },
+    { MODKEY,  XK_m,     spawn, SHCMD("$TERMINAL aerc") },
     { MODKEY,  XK_s,     spawn, SHCMD("dunstify \"Running mailsync...\"; mailsync") },
-    { MODKEY,  XK_e,     spawn, SHCMD("st -e $EDITOR") },
+    { MODKEY,  XK_e,     spawn, SHCMD("$TERMINAL $EDITOR") },
+    { MODKEY,  XK_g,     spawn, SHCMD("$TERMINAL lazygit --git-dir=$HOME/.cfg --work-tree=$HOME") },
     { MODKEY,  XK_c,     spawn, SHCMD("st -f 'mono:pixelsize=20:antialias=true:autohint=true' -e calcurse") },
     { MODKEY,  XK_o,     spawn, SHCMD("togglecompositor") },
     { MODKEY,  XK_space, spawn, SHCMD("togglekb; pkill -RTMIN+14 dwmblocks") },
