@@ -48,10 +48,10 @@ static const Rule rules[] = {
     { "st-256color",        NULL, NULL,           0, 0, 0, 1,  0, -1 },
 
     /* tag 1 */
-    { "firefox",            NULL, NULL,           1, 1, 0, 0, -1, -1 },
-    { "qutebrowser",        NULL, NULL,           1, 1, 0, 0, -1, -1 },
-    { "Brave-browser",      NULL, NULL,           1, 1, 0, 0, -1, -1 },
-    { "st-256color",        NULL, "newsboat",     1, 1, 0, 0, -1, -1 },
+    { "firefox",            NULL, NULL,           1, 1, 0, 0, 0, -1 },
+    { "qutebrowser",        NULL, NULL,           1, 1, 0, 0, 0, -1 },
+    { "Brave-browser",      NULL, NULL,           1, 1, 0, 0, 0, -1 },
+    { "st-256color",        NULL, "newsboat",     1, 1, 0, 0, 0, -1 },
 
     /* tag 2 */
     { "com.oracle.javafx.scenebuipp.ScederApp",
@@ -89,7 +89,6 @@ static const Rule rules[] = {
     /* tag 6 */
     { "Skype",              NULL, NULL,      1 << 5, 1, 0, 0,  0, -1 },
     { "zoom",               NULL, NULL,      1 << 5, 1, 0, 0,  0, -1 },
-    { "Ripcord",            NULL, NULL,      1 << 5, 1, 0, 0,  0, -1 },
     { "discord",            NULL, NULL,      1 << 5, 1, 0, 0,  0, -1 },
     { "Signal",             NULL, NULL,      1 << 5, 1, 0, 0,  0, -1 },
     { "Element",            NULL, NULL,      1 << 5, 1, 0, 0,  0, -1 },
@@ -139,13 +138,14 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 /* make sure these are in $PATH */
 static const char *dmenucmd[] = { "dmenu_hist", NULL }; // dmenu script which remembers history
 static const char *dmenu_sudo_cmd[] = { "dmenu_hist", "sudo", NULL }; // running programs with sudo
-static const char *passmenucmd[] = { "passmenu_hist", NULL }; // passmenu script which remembers history
+static const char *passmenucmd[] = { "/home/pulzar/source/keepmenu-sh/keepmenu-sh", NULL }; // passmenu script which remembers history
 static const char *confmenucmd[] = { "confmenu", NULL }; // script that pipes the contents of the ~/.config dir into dmenu and opens the picked entry in $EDITOR
 static const char *powermenucmd[] = { "powermenu", NULL }; // options to reboot, shutdown, suspend, etc 
 static const char *clipmenucmd[] = { "clipmenu_wrapper", NULL }; // clipboard history
 static const char *bookmarkmenucmd[] = { "bookmarkmenu", NULL }; // saved urls
-static const char *repolist[] = { "repolist", NULL }; // browse manpages
-static const char *termcmd[]  = { "st", "-t", "simple terminal", NULL };
+static const char *repolist[] = { "repolist", NULL }; // open a git repository in ~/source/ in lazygit
+static const char *wifi[] = { "networkmanager_dmenu", "-lh", "26", "-c", NULL }; // manage wifi networks
+static const char *termcmd[]  = { "st", NULL };
 
 static Key keys[] = {
     /* modifier                     key        function        argument */
@@ -154,6 +154,7 @@ static Key keys[] = {
     { MODKEY|ControlMask,           XK_d,      spawn,          {.v = dmenu_sudo_cmd } },
     { MODKEY|ShiftMask,             XK_p,      spawn,          {.v = passmenucmd } },
     { MODKEY,                       XK_p,      spawn,          {.v = powermenucmd } },
+    { MODKEY,                       XK_w,      spawn,          {.v = wifi } },
     { MODKEY|ShiftMask,             XK_e,      spawn,          {.v = confmenucmd } },
     { MODKEY|ShiftMask,             XK_c,      spawn,          {.v = clipmenucmd } },
     { MODKEY|ShiftMask,             XK_b,      spawn,          {.v = bookmarkmenucmd } },
@@ -254,7 +255,7 @@ static Button buttons[] = {
 	{ ClkLtSymbol,          0,              Button1,        cyclelayout,    {.i = +1} },
 	{ ClkLtSymbol,          0,              Button3,        cyclelayout,    {.i = -1} },
     { ClkWinTitle,          0,              Button1,        togglewin,      {0} },
-    { ClkWinTitle,          0,              Button2,        zoom,           {0} },
+    { ClkWinTitle,          0,              Button2,        killclient,     {0} },
     { ClkWinTitle,          0,              Button3,        toggleshowhide, {0} },
     { ClkStatusText,        0,              Button1,        sigdwmblocks,   {.i = 1} },
     { ClkStatusText,        0,              Button2,        sigdwmblocks,   {.i = 2} },
