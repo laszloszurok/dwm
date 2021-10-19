@@ -84,7 +84,6 @@ static const Rule rules[] = {
     /* tag 5 */
     { "Spotify",            NULL, NULL,      1 << 4, 1, 0, 0,  0, -1 },
     { "st-256color",        NULL, "ncspot",  1 << 4, 1, 0, 1,  0, -1 },
-    { "st-256color",        NULL, "lyrics",  1 << 4, 1, 0, 1,  0, -1 },
 
     /* tag 6 */
     { "Skype",              NULL, NULL,      1 << 5, 1, 0, 0,  0, -1 },
