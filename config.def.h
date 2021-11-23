@@ -137,7 +137,7 @@ static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() 
 /* make sure these are in $PATH */
 static const char *dmenucmd[] = { "dmenu_hist", NULL }; // dmenu script which remembers history
 static const char *dmenu_sudo_cmd[] = { "dmenu_hist", "sudo", NULL }; // running programs with sudo
-static const char *passmenucmd[] = { "/home/pulzar/source/keepmenu-sh/keepmenu-sh", NULL }; // passmenu script which remembers history
+static const char *passmenucmd[] = { "keepmenu-sh", NULL }; // passmenu script which remembers history
 static const char *confmenucmd[] = { "confmenu", NULL }; // script that pipes the contents of the ~/.config dir into dmenu and opens the picked entry in $EDITOR
 static const char *powermenucmd[] = { "powermenu", NULL }; // options to reboot, shutdown, suspend, etc 
 static const char *clipmenucmd[] = { "clipmenu_wrapper", NULL }; // clipboard history
