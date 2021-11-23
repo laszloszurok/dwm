@@ -1801,7 +1801,7 @@ run(void)
 
 void
 runAutostart(void) {
-	system("wmname LG3D &");
+	system("wmname compiz &");
 }
 
 void
