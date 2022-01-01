@@ -143,7 +143,7 @@ static const char *powermenucmd[] = { "powermenu", NULL }; // options to reboot,
 static const char *clipmenucmd[] = { "clipmenu_wrapper", NULL }; // clipboard history
 static const char *bookmarkmenucmd[] = { "bookmarkmenu", NULL }; // saved urls
 static const char *repolist[] = { "repolist", NULL }; // open a git repository in ~/source/ in lazygit
-static const char *wifi[] = { "networkmanager_dmenu", "-l", "20", "-lh", "26", "-c", NULL }; // manage wifi networks
+static const char *wifi[] = { "networkmanager_dmenu", "-l", "20", "-lh", "26", "-c", "-i", NULL }; // manage wifi networks
 static const char *termcmd[]  = { "st", NULL };
 
 static Key keys[] = {
