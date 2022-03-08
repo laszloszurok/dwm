@@ -18,7 +18,7 @@ static const int topbar             = 1;        /* 0 means bottom bar */
 
 static const char *fonts[]          = { 
     "DejaVu Sans:size:pixelsize=16:antialias=true:autohint=true",
-    "Font Awesome 5 Free Solid:size:pixelsize=13:antialias=true:autohint=true"
+    "Font Awesome 6 Free Solid:size:pixelsize=12:antialias=true:autohint=true"
 };
 
 static const unsigned int alphas[][3]      = {
