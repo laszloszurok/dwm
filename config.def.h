@@ -144,12 +144,14 @@ static const char *clipmenucmd[] = { "clipmenu_wrapper", NULL }; // clipboard hi
 static const char *bookmarkmenucmd[] = { "bookmarkmenu", NULL }; // saved urls
 static const char *repolist[] = { "repolist", NULL }; // open a git repository in ~/source/ in lazygit
 static const char *wifi[] = { "networkmanager_dmenu", "-l", "20", "-lh", "26", "-c", "-i", NULL }; // manage wifi networks
+static const char *blockmenucmd[] = { "blockmenu", NULL }; // manage block devices
 static const char *termcmd[]  = { "st", NULL };
 
 static Key keys[] = {
     /* modifier                     key        function        argument */
     { MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
     { MODKEY,                       XK_d,      spawn,          {.v = dmenucmd } },
+    { MODKEY,                       XK_b,      spawn,          {.v = blockmenucmd } },
     { MODKEY|ControlMask,           XK_d,      spawn,          {.v = dmenu_sudo_cmd } },
     { MODKEY|ShiftMask,             XK_p,      spawn,          {.v = passmenucmd } },
     { MODKEY,                       XK_p,      spawn,          {.v = powermenucmd } },
@@ -219,7 +221,6 @@ static Key keys[] = {
 
     { 0, XK_Print,                 spawn, SHCMD("flameshot gui") },
 
-    { MODKEY,  XK_b,     spawn, SHCMD("$BROWSER") },
     { MODKEY,  XK_v,     spawn, SHCMD("$TERMINAL vifmrun") },
     { MODKEY,  XK_n,     spawn, SHCMD("$TERMINAL newsboat") },
     { MODKEY,  XK_m,     spawn, SHCMD("$TERMINAL aerc") },
