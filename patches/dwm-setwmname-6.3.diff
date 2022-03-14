@@ -1,0 +1,39 @@
+diff -crB original/dwm.c update/dwm.c
+*** original/dwm.c	2022-03-13 22:46:29.215211110 +0100
+--- update/dwm.c	2022-03-14 11:11:43.586740759 +0100
+***************
+*** 194,199 ****
+--- 194,200 ----
+  static void resizemouse(const Arg *arg);
+  static void restack(Monitor *m);
+  static void run(void);
++ static void setwmname(void);
+  static void scan(void);
+  static int sendevent(Client *c, Atom proto);
+  static void sendmon(Client *c, Monitor *m);
+***************
+*** 1386,1391 ****
+--- 1387,1398 ----
+  }
+  
+  void
++ setwmname(void)
++ {
++     system("wmname LG3D");
++ }
++ 
++ void
+  scan(void)
+  {
+  	unsigned int i, num;
+***************
+*** 2149,2154 ****
+--- 2156,2162 ----
+  		die("pledge");
+  #endif /* __OpenBSD__ */
+  	scan();
++     setwmname();
+  	run();
+  	cleanup();
+  	XCloseDisplay(dpy);
+Binary files original/.git/index and update/.git/index differ
