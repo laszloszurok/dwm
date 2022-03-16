@@ -203,6 +203,7 @@ static void hidewin(Client *c);
 static void incnmaster(const Arg *arg);
 static void keypress(XEvent *e);
 static void killclient(const Arg *arg);
+static void losefullscreen(Client *sel, Client *next);
 static void manage(Window w, XWindowAttributes *wa);
 static void mappingnotify(XEvent *e);
 static void maprequest(XEvent *e);
@@ -1107,6 +1108,7 @@ focusstack(int inc, int hid)
 					c = i;
 	}
 	if (c) {
+		losefullscreen(selmon->sel, c);
 		focus(c);
 		restack(selmon);
         
@@ -1331,6 +1333,15 @@ killclient(const Arg *arg)
 }
 
 void
+losefullscreen(Client *sel, Client *next)
+{
+	if (!sel || !next)
+		return;
+	if (sel->isfullscreen && ISVISIBLE(sel) && sel->mon == next->mon && !next->isfloating)
+		setfullscreen(sel, 0);
+}
+
+void
 manage(Window w, XWindowAttributes *wa)
 {
 	Client *c, *t = NULL, *term = NULL;
@@ -1389,8 +1400,10 @@ manage(Window w, XWindowAttributes *wa)
 	XMoveResizeWindow(dpy, c->win, c->x + 2 * sw, c->y, c->w, c->h); /* some windows require this */
 	if (!HIDDEN(c))
 		setclientstate(c, NormalState);
-	if (c->mon == selmon)
+	if (c->mon == selmon) {
+		losefullscreen(selmon->sel, c);
  		unfocus(selmon->sel, 0);
+    }
 	c->mon->sel = c;
 	arrange(c->mon);
 	if (!HIDDEN(c))
