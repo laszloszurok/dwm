@@ -156,6 +156,7 @@ static const char *aerc[]     = { "st", "aerc", NULL };
 static const char *lazygit[]  = { "st", "lg", NULL };
 static const char *calcurse[] = { "st", "calcurse", NULL };
 static const char *mailsync[] = { "mailsync", NULL };
+static const char *iwctl[]    = { "st", "iwctl", NULL };
 
 static const char *volup[]   = { "dwm-volup", NULL };
 static const char *voldown[] = { "dwm-voldown", NULL };
@@ -181,17 +182,17 @@ static Key keys[] = {
     { MODKEY, XK_g,      spawn, { .v = lazygit } },
     { MODKEY, XK_c,      spawn, { .v = calcurse } },
     { MODKEY, XK_s,      spawn, { .v = mailsync } },
+    { MODKEY, XK_w,      spawn, { .v = iwctl } },
 
-	{ MODKEY,           XK_r, spawn, {.v = dmenu } },
-	{ MODKEY|ShiftMask, XK_r, spawn, {.v = dmenu_sudo } },
-	{ MODKEY,           XK_p, spawn, {.v = powermenu } },
-	{ MODKEY|ShiftMask, XK_c, spawn, {.v = clipmenu } },
-	{ MODKEY|ShiftMask, XK_b, spawn, {.v = bookmarkmenu } },
-	{ MODKEY,           XK_b, spawn, {.v = blockmenu } },
-	{ MODKEY|ShiftMask, XK_g, spawn, {.v = repolist } },
-	{ MODKEY|ShiftMask, XK_p, spawn, {.v = passmenu } },
-
-	{ Mod4Mask, XK_space, spawn, { .v = togglekb } },
+	{ MODKEY,           XK_r,     spawn, {.v = dmenu} },
+	{ MODKEY|ShiftMask, XK_r,     spawn, {.v = dmenu_sudo} },
+	{ MODKEY,           XK_p,     spawn, {.v = powermenu} },
+	{ MODKEY|ShiftMask, XK_c,     spawn, {.v = clipmenu} },
+	{ MODKEY|ShiftMask, XK_b,     spawn, {.v = bookmarkmenu} },
+	{ MODKEY,           XK_b,     spawn, {.v = blockmenu} },
+	{ MODKEY|ShiftMask, XK_g,     spawn, {.v = repolist} },
+	{ MODKEY|ShiftMask, XK_p,     spawn, {.v = passmenu} },
+	{ MODKEY,           XK_space, spawn, {.v = togglekb} },
 
 	{ MODKEY, XK_t, togglebar, {0} },
 
@@ -212,7 +213,6 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask, XK_t,     setlayout,      {.v = &layouts[0]} },
 	{ MODKEY|ShiftMask, XK_m,     setlayout,      {.v = &layouts[1]} },
 	{ MODKEY|ShiftMask, XK_f,     setlayout,      {.v = &layouts[2]} },
-	{ MODKEY|ShiftMask, XK_space, setlayout,      {0} },
 	{ MODKEY|ShiftMask, XK_space, togglefloating, {0} },
 
     { MODKEY|ShiftMask, XK_k, shiftview, {.i = +1} },
