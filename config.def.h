@@ -107,8 +107,7 @@ static const Rule rules[] = {
     { "qBittorrent",        NULL, NULL,      1 << 7, 1, 0, 0,  0, -1 },
 
     /* tag 9 */
-    { "st-256color",        NULL, "kmon",    1 << 8, 1, 0, 0,  0, -1 },
-    { "st-256color",        NULL, "btm",     1 << 8, 1, 0, 0,  0, -1 },
+    { "KeePassXC",          NULL, NULL,      1 << 8, 1, 0, 0,  0, -1 },
 };
 
 /* layout(s) */
