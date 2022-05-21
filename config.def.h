@@ -86,7 +86,7 @@ static const Rule rules[] = {
     { "draw.io",            NULL, NULL,      1 << 3, 1, 0, 0,  0, -1 },
     
     /* tag 5 */
-    { "Spotify",            NULL, NULL,      1 << 4, 1, 0, 0,  0, -1 },
+    { "Spotify",            NULL, "Spotify", 1 << 4, 1, 0, 0,  0, -1 },
     { "st-256color",        NULL, "ncspot",  1 << 4, 1, 0, 1,  0, -1 },
 
     /* tag 6 */
