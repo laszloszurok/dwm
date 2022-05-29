@@ -47,67 +47,72 @@ static const Rule rules[] = {
     /* class | instance | title | tags mask | switchtotag | isfloating | isterminal | noswallow | monitor */
 
     /* no specific tag */
-    { NULL,                 NULL, "Event Tester", 0, 0, 0, 0,  1, -1 },
-    { "Yad",                NULL, NULL,           0, 0, 1, 1,  0, -1 },
-    { "st-256color",        NULL, NULL,           0, 0, 0, 1,  0, -1 },
+    { NULL,          NULL, "Event Tester", 0, 0, 0, 0, 1, -1 },
+    { "Yad",         NULL, NULL,           0, 0, 1, 1, 0, -1 },
+    { "st-256color", NULL, NULL,           0, 0, 0, 1, 0, -1 },
 
     /* tag 1 */
-    { "firefox",            NULL, NULL,           1, 1, 0, 0, 0, -1 },
-    { "qutebrowser",        NULL, NULL,           1, 1, 0, 0, 0, -1 },
-    { "Brave-browser",      NULL, NULL,           1, 1, 0, 0, 0, -1 },
-    { "st-256color",        NULL, "newsboat",     1, 1, 0, 0, 0, -1 },
+    { "firefox",       NULL, NULL,       1, 1, 0, 0, 0, -1 },
+    { "qutebrowser",   NULL, NULL,       1, 1, 0, 0, 0, -1 },
+    { "Brave-browser", NULL, NULL,       1, 1, 0, 0, 0, -1 },
+    { "st-256color",   NULL, "newsboat", 1, 1, 0, 0, 0, -1 },
 
     /* tag 2 */
     { "com.oracle.javafx.scenebuipp.ScederApp",
-                            NULL, NULL,      1 << 1, 1, 0, 0,  0, -1 },
-    { "jetbrains-webstorm", NULL, NULL,      1 << 1, 1, 0, 0,  0, -1 },
-    { "jetbrains-clion",    NULL, NULL,      1 << 1, 1, 0, 0,  0, -1 },
-    { "jetbrains-idea",     NULL, NULL,      1 << 1, 1, 0, 0,  0, -1 },
-    { "jetbrains-idea-ce",  NULL, NULL,      1 << 1, 1, 0, 0,  0, -1 },
-    { "jetbrains-studio",   NULL, NULL,      1 << 1, 1, 0, 0,  0, -1 },
-    { "code-oss",           NULL, NULL,      1 << 1, 1, 0, 0,  0, -1 },
-    { "VSCodium",           NULL, NULL,      1 << 1, 1, 0, 0,  0, -1 },
-    { "Pcmanfm",            NULL, NULL,      1 << 1, 1, 0, 0,  0, -1 },
-    { "st-256color",        NULL,"vifm",     1 << 1, 1, 0, 1,  0, -1 },
-    { "st-256color",        NULL,"nvim",     1 << 1, 1, 0, 1,  0, -1 },
-    { "st-256color",        NULL,"nvr",      1 << 1, 1, 0, 1,  0, -1 },
-    { "st-256color",        NULL,"lazygit",  1 << 1, 1, 0, 1,  0, -1 },
+                            NULL, NULL,     1 << 1, 1, 0, 0, 0, -1 },
+    { "jetbrains-webstorm", NULL, NULL,     1 << 1, 1, 0, 0, 0, -1 },
+    { "jetbrains-clion",    NULL, NULL,     1 << 1, 1, 0, 0, 0, -1 },
+    { "jetbrains-idea",     NULL, NULL,     1 << 1, 1, 0, 0, 0, -1 },
+    { "jetbrains-idea-ce",  NULL, NULL,     1 << 1, 1, 0, 0, 0, -1 },
+    { "jetbrains-studio",   NULL, NULL,     1 << 1, 1, 0, 0, 0, -1 },
+    { "code-oss",           NULL, NULL,     1 << 1, 1, 0, 0, 0, -1 },
+    { "VSCodium",           NULL, NULL,     1 << 1, 1, 0, 0, 0, -1 },
+    { "Pcmanfm",            NULL, NULL,     1 << 1, 1, 0, 0, 0, -1 },
+    { "st-256color",        NULL,"vifm",    1 << 1, 1, 0, 1, 0, -1 },
+    { "st-256color",        NULL,"nvim",    1 << 1, 1, 0, 1, 0, -1 },
+    { "st-256color",        NULL,"nvr",     1 << 1, 1, 0, 1, 0, -1 },
+    { "st-256color",        NULL,"lazygit", 1 << 1, 1, 0, 1, 0, -1 },
 
     /* tag 3 */
-    { "DesktopEditors",     NULL, NULL,      1 << 2, 1, 0, 0,  0, -1 },
-    { "libreoffice",        NULL, NULL,      1 << 2, 1, 0, 0,  0, -1 },
-    { "Soffice",            NULL, NULL,      1 << 2, 1, 0, 0,  0, -1 },
-    { "Zathura",            NULL, NULL,      1 << 2, 1, 0, 0,  0, -1 },
+    { "DesktopEditors", NULL, NULL, 1 << 2, 1, 0, 0, 0, -1 },
+    { "libreoffice",    NULL, NULL, 1 << 2, 1, 0, 0, 0, -1 },
+    { "Soffice",        NULL, NULL, 1 << 2, 1, 0, 0, 0, -1 },
+    { "Zathura",        NULL, NULL, 1 << 2, 1, 0, 0, 0, -1 },
 
     /* tag 4 */
-    { "Gimp",               NULL, NULL,      1 << 3, 1, 0, 0,  0, -1 },
-    { "Blender",            NULL, NULL,      1 << 3, 1, 0, 0,  0, -1 },
-    { "Inkscape",           NULL, NULL,      1 << 3, 1, 0, 0,  0, -1 },
-    { "draw.io",            NULL, NULL,      1 << 3, 1, 0, 0,  0, -1 },
+    { "Gimp",     NULL, NULL, 1 << 3, 1, 0, 0, 0, -1 },
+    { "Blender",  NULL, NULL, 1 << 3, 1, 0, 0, 0, -1 },
+    { "Inkscape", NULL, NULL, 1 << 3, 1, 0, 0, 0, -1 },
+    { "draw.io",  NULL, NULL, 1 << 3, 1, 0, 0, 0, -1 },
     
     /* tag 5 */
-    { "Spotify",            NULL, "Spotify", 1 << 4, 1, 0, 0,  0, -1 },
-    { "st-256color",        NULL, "ncspot",  1 << 4, 1, 0, 1,  0, -1 },
+    { NULL,          NULL, "Spotify", 1 << 4, 1, 0, 0, 0, -1 },
+    { "st-256color", NULL, "ncspot",  1 << 4, 1, 0, 1, 0, -1 },
 
     /* tag 6 */
-    { "Skype",              NULL, NULL,      1 << 5, 1, 0, 0,  0, -1 },
-    { "zoom",               NULL, NULL,      1 << 5, 1, 0, 0,  0, -1 },
-    { "discord",            NULL, NULL,      1 << 5, 1, 0, 0,  0, -1 },
-    { "Signal",             NULL, NULL,      1 << 5, 1, 0, 0,  0, -1 },
-    { "Element",            NULL, NULL,      1 << 5, 1, 0, 0,  0, -1 },
-    { "st-256color",        NULL, "aerc",    1 << 5, 1, 0, 0,  0, -1 },
-    { "st-256color",        NULL, "weechat", 1 << 5, 1, 0, 0,  0, -1 },
+    { "Skype",       NULL, NULL,      1 << 5, 1, 0, 0, 0, -1 },
+    { "zoom",        NULL, NULL,      1 << 5, 1, 0, 0, 0, -1 },
+    { "discord",     NULL, NULL,      1 << 5, 1, 0, 0, 0, -1 },
+    { "Signal",      NULL, NULL,      1 << 5, 1, 0, 0, 0, -1 },
+    { "Element",     NULL, NULL,      1 << 5, 1, 0, 0, 0, -1 },
+    { "st-256color", NULL, "aerc",    1 << 5, 1, 0, 0, 0, -1 },
+    { "st-256color", NULL, "weechat", 1 << 5, 1, 0, 0, 0, -1 },
 
     /* tag 7 */
-    { "Virt-manager",       NULL, NULL,      1 << 6, 1, 0, 0,  0, -1 },
-    { "VirtualBox Manager", NULL, NULL,      1 << 6, 1, 0, 0,  0, -1 },
-    { "Genymotion",         NULL, NULL,      1 << 6, 1, 0, 0,  0, -1 },
+    { "Virt-manager",       NULL, NULL, 1 << 6, 1, 0, 0, 0, -1 },
+    { "VirtualBox Manager", NULL, NULL, 1 << 6, 1, 0, 0, 0, -1 },
+    { "Genymotion",         NULL, NULL, 1 << 6, 1, 0, 0, 0, -1 },
 
     /* tag 8 */
-    { "qBittorrent",        NULL, NULL,      1 << 7, 1, 0, 0,  0, -1 },
+    { "st-256color", NULL, "bluetoothctl", 1 << 7, 1, 0, 0,  0, -1 },
+    { "st-256color", NULL, "iwctl",        1 << 7, 1, 0, 0,  0, -1 },
+    { "st-256color", NULL, "pulsemixer",   1 << 7, 1, 0, 0,  0, -1 },
+    { "st-256color", NULL, "pavucontrol",  1 << 7, 1, 0, 0,  0, -1 },
+    { "st-256color", NULL, "btm",          1 << 7, 1, 0, 0,  0, -1 },
 
     /* tag 9 */
-    { "KeePassXC",          NULL, NULL,      1 << 8, 1, 0, 0,  0, -1 },
+    { "KeePassXC",   NULL, NULL, 1 << 8, 1, 0, 0, 0, -1 },
+    { "qBittorrent", NULL, NULL, 1 << 8, 1, 0, 0, 0, -1 },
 };
 
 /* layout(s) */
