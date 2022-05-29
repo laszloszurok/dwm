@@ -36,6 +36,19 @@ static const char *colors[][3]      = {
 	[SchemeHid]  = { hid_fg,  hid_bg,  hid_border  },
 };
 
+static const char *const autostart[] = {
+    "setwallpaper", NULL,
+    "setxkbmap", "us", "-option", "caps:escape", NULL,
+    "unclutter", "--timeout", "15", "--ignore-scrolling", "--jitter", "35", NULL,
+    "clipmenud", NULL,
+    "picom", NULL,
+    "numlockx", NULL,
+    "lxpolkit", NULL,
+    "inactivity", NULL,
+    "dwmblocks", NULL,
+	NULL /* terminate */
+};
+
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
