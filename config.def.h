@@ -166,6 +166,7 @@ static const char *repolist[]     = { "repolist", NULL };
 static const char *blockmenu[]    = { "blockmenu", NULL };
 static const char *passmenu[]     = { "keepmenu-sh", NULL };
 static const char *togglekb[]     = { "togglekb", NULL };
+static const char *slock[]        = { "slock", NULL };
 
 static const char *term[]     = { "st", NULL };
 static const char *vifmrun[]  = { "st", "vifmrun", NULL };
@@ -201,6 +202,7 @@ static Key keys[] = {
     { MODKEY, XK_c,      spawn, { .v = calcurse } },
     { MODKEY, XK_s,      spawn, { .v = mailsync } },
     { MODKEY, XK_w,      spawn, { .v = iwctl } },
+    { MODKEY, XK_l,      spawn, { .v = slock } },
 
 	{ MODKEY,           XK_r,     spawn, {.v = dmenu} },
 	{ MODKEY|ShiftMask, XK_r,     spawn, {.v = dmenu_sudo} },
