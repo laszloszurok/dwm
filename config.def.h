@@ -46,6 +46,7 @@ static const char *const autostart[] = {
     "lxpolkit", NULL,
     "inactivity", NULL,
     "dwmblocks", NULL,
+    "wmname", "LG3D", NULL,
 	NULL /* terminate */
 };
 
