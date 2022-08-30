@@ -61,9 +61,10 @@ static const Rule rules[] = {
     /* class | instance | title | tags mask | switchtotag | isfloating | isterminal | noswallow | monitor */
 
     /* no specific tag */
-    { NULL,          NULL, "Event Tester", 0, 0, 0, 0, 1, -1 },
-    { "Yad",         NULL, NULL,           0, 0, 1, 1, 0, -1 },
-    { "st-256color", NULL, NULL,           0, 0, 0, 1, 0, -1 },
+    { NULL,             NULL, "Event Tester", 0, 0, 0, 0, 1, -1 },
+    { "Yad",            NULL, NULL,           0, 0, 1, 1, 0, -1 },
+    { "st-256color",    NULL, NULL,           0, 0, 0, 1, 0, -1 },
+    { "Pinentry-gtk-2", NULL, NULL,           0, 0, 1, 0, 0, -1 },
 
     /* tag 1 */
     { "firefox",       NULL, NULL,       1, 1, 0, 0, 0, -1 },
