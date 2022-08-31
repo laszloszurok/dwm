@@ -164,7 +164,7 @@ static const char *clipmenu[]     = { "clipmenu_wrapper", NULL };
 static const char *bookmarkmenu[] = { "bookmarkmenu", NULL };
 static const char *repolist[]     = { "repolist", NULL };
 static const char *blockmenu[]    = { "blockmenu", NULL };
-static const char *passmenu[]     = { "keepmenu-sh", NULL };
+static const char *passmenu[]     = { "passmenu_hist", NULL };
 static const char *togglekb[]     = { "togglekb", NULL };
 static const char *slock[]        = { "slock", NULL };
 
@@ -206,12 +206,11 @@ static Key keys[] = {
 
 	{ MODKEY,           XK_r,     spawn, {.v = dmenu} },
 	{ MODKEY|ShiftMask, XK_r,     spawn, {.v = dmenu_sudo} },
-	{ MODKEY,           XK_p,     spawn, {.v = powermenu} },
+	{ MODKEY,           XK_p,     spawn, {.v = passmenu} },
 	{ MODKEY|ShiftMask, XK_c,     spawn, {.v = clipmenu} },
 	{ MODKEY|ShiftMask, XK_b,     spawn, {.v = bookmarkmenu} },
 	{ MODKEY,           XK_b,     spawn, {.v = blockmenu} },
 	{ MODKEY|ShiftMask, XK_g,     spawn, {.v = repolist} },
-	{ MODKEY|ShiftMask, XK_p,     spawn, {.v = passmenu} },
 	{ MODKEY,           XK_space, spawn, {.v = togglekb} },
 
 	{ MODKEY, XK_t, togglebar, {0} },
