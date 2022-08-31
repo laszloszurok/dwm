@@ -44,7 +44,6 @@ static const char *const autostart[] = {
     "picom", NULL,
     "numlockx", NULL,
     "lxpolkit", NULL,
-    "inactivity", NULL,
     "dwmblocks", NULL,
     "wmname", "LG3D", NULL,
 	NULL /* terminate */
