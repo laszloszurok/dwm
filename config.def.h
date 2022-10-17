@@ -102,6 +102,7 @@ static const Rule rules[] = {
     /* tag 5 */
     { NULL,          NULL, "Spotify", 1 << 4, 1, 0, 0, 0, -1 },
     { "st-256color", NULL, "ncspot",  1 << 4, 1, 0, 1, 0, -1 },
+    { "st-256color", NULL, "mpv",     1 << 4, 1, 0, 1, 0, -1 },
 
     /* tag 6 */
     { "Skype",       NULL, NULL,      1 << 5, 1, 0, 0, 0, -1 },
@@ -157,16 +158,16 @@ static const Layout layouts[] = {
 #define STATUSBAR "dwmblocks"
 
 /* commands */
-static const char *dmenu[]        = { "dmenu_hist", NULL };
-static const char *dmenu_sudo[]   = { "dmenu_hist", "sudo", NULL };
-static const char *powermenu[]    = { "powermenu", NULL };
-static const char *clipmenu[]     = { "clipmenu_wrapper", NULL };
-static const char *bookmarkmenu[] = { "bookmarkmenu", NULL };
-static const char *repolist[]     = { "repolist", NULL };
-static const char *blockmenu[]    = { "blockmenu", NULL };
-static const char *passmenu[]     = { "passmenu_hist", NULL };
-static const char *togglekb[]     = { "togglekb", NULL };
-static const char *slock[]        = { "slock", NULL };
+static const char *dmenu_run[]       = { "dmenu-run", NULL };
+static const char *dmenu_run_sudo[]  = { "dmenu-run", "sudo", NULL };
+static const char *dmenu_bookmarks[] = { "dmenu-bookmarks", NULL };
+static const char *dmenu_repos[]     = { "dmenu-repos", NULL };
+static const char *dmenu_mount[]     = { "dmenu-mount", NULL };
+static const char *dmenu_pass[]      = { "dmenu-pass", NULL };
+static const char *dmenu_todo[]      = { "dmenu-todo", NULL };
+static const char *clipmenu[]        = { "clipmenu_wrapper", NULL };
+static const char *togglekb[]        = { "togglekb", NULL };
+static const char *slock[]           = { "slock", NULL };
 
 static const char *term[]     = { "st", NULL };
 static const char *vifmrun[]  = { "st", "vifmrun", NULL };
@@ -191,7 +192,6 @@ static const char *brightdown[] = { "brightness_notify", "dec", NULL };
 
 static const char *printscr[] = { "flameshot", "gui", NULL };
 
-
 static Key keys[] = {
 	/* modifier, key, function, argument */
 	{ MODKEY, XK_Return, spawn, { .v = term } },
@@ -204,21 +204,25 @@ static Key keys[] = {
     { MODKEY, XK_w,      spawn, { .v = iwctl } },
     { MODKEY, XK_l,      spawn, { .v = slock } },
 
-	{ MODKEY,           XK_r,     spawn, {.v = dmenu} },
-	{ MODKEY|ShiftMask, XK_r,     spawn, {.v = dmenu_sudo} },
-	{ MODKEY,           XK_p,     spawn, {.v = passmenu} },
+	{ MODKEY,           XK_r,     spawn, {.v = dmenu_run} },
+	{ MODKEY|ShiftMask, XK_r,     spawn, {.v = dmenu_run_sudo} },
+	{ MODKEY,           XK_p,     spawn, {.v = dmenu_pass} },
+	{ MODKEY,           XK_t,     spawn, {.v = dmenu_todo} },
 	{ MODKEY|ShiftMask, XK_c,     spawn, {.v = clipmenu} },
-	{ MODKEY|ShiftMask, XK_b,     spawn, {.v = bookmarkmenu} },
-	{ MODKEY,           XK_b,     spawn, {.v = blockmenu} },
-	{ MODKEY|ShiftMask, XK_g,     spawn, {.v = repolist} },
+	{ MODKEY|ShiftMask, XK_b,     spawn, {.v = dmenu_bookmarks} },
+	{ MODKEY,           XK_b,     spawn, {.v = dmenu_mount} },
+	{ MODKEY|ShiftMask, XK_g,     spawn, {.v = dmenu_repos} },
 	{ MODKEY,           XK_space, spawn, {.v = togglekb} },
 
-	{ MODKEY, XK_t, togglebar, {0} },
+	/* { MODKEY, XK_t, togglebar, {0} }, */
 
 	{ MODKEY,             XK_j, focusstackvis, {.i = +1 } },
 	{ MODKEY,             XK_k, focusstackvis, {.i = -1 } },
 	{ MODKEY|ControlMask, XK_j, focusstackhid, {.i = +1 } },
 	{ MODKEY|ControlMask, XK_k, focusstackhid, {.i = -1 } },
+
+    { MODKEY|ShiftMask, XK_s, show, {0} },
+	{ MODKEY|ShiftMask, XK_h, hide, {0} },
 
 	{ MODKEY|ShiftMask, XK_i, incnmaster, {.i = +1 } },
 	{ MODKEY|ShiftMask, XK_d, incnmaster, {.i = -1 } },
@@ -244,9 +248,6 @@ static Key keys[] = {
 	{ MODKEY,           XK_period, focusmon, {.i = +1 } },
 	{ MODKEY|ShiftMask, XK_comma,  tagmon,   {.i = -1 } },
 	{ MODKEY|ShiftMask, XK_period, tagmon,   {.i = +1 } },
-
-    { MODKEY|ShiftMask, XK_s, show, {0} },
-	{ MODKEY|ShiftMask, XK_h, hide, {0} },
 
 	{ MODKEY,           XK_minus, setgaps, {.i = -5 } },
 	{ MODKEY,           XK_equal, setgaps, {.i = +5 } },
